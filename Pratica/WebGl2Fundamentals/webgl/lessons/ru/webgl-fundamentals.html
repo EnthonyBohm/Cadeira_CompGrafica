@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ru/webgl-fundamentals.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Ваш первый урок WebGL2, начинающийся с основ">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-fundamentals_ru.jpg">
+
+<meta property="og:title" content="Основы WebGL2">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-fundamentals_ru.jpg">
+<meta property="og:description" content="Ваш первый урок WebGL2, начинающийся с основ">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ru/webgl-fundamentals.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="Основы WebGL2">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ru/webgl-fundamentals.html">
+<meta name="twitter:description" content="Ваш первый урок WebGL2, начинающийся с основ">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-fundamentals_ru.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-fundamentals.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-fundamentals_ru.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-fundamentals.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-fundamentals.html",
+      "inLanguage":"ru",
+      "name":"Основы WebGL2",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-fundamentals.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>Основы WebGL2</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-fundamentals.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-fundamentals.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-fundamentals.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-fundamentals.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-fundamentals.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-fundamentals.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-fundamentals.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-fundamentals.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-fundamentals.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-fundamentals.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-fundamentals.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-fundamentals.html" selected>Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-fundamentals.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">Содержание</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ru/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>Основы WebGL2</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>Прежде всего, эти статьи посвящены WebGL2. Если вас интересует WebGL 1.0,
+<a href="https://webglfundamentals.org">пожалуйста, перейдите сюда</a>. Обратите внимание, что WebGL2 <a href="webgl1-to-webgl2.html">почти на 100% обратно
+совместим с WebGL 1</a>. Тем не менее, как только вы включите
+WebGL2, вам стоит использовать его так, как он был задуман. Эти туториалы следуют
+этому пути.</p>
+<p>WebGL часто рассматривается как 3D API. Люди думают “Я использую WebGL и <em>магия</em> я получу крутую 3D графику”.
+В реальности WebGL - это просто движок растеризации. Он рисует <a href="webgl-points-lines-triangles.html">точки, линии и треугольники</a> на основе
+кода, который вы предоставляете. Заставить WebGL делать что-то еще - ваша задача предоставить код для использования точек, линий
+и треугольников для выполнения вашей задачи.</p>
+<p>WebGL работает на GPU вашего компьютера. Как таковой, вам нужно предоставить код, который работает на этом GPU.
+Вы предоставляете этот код в виде пар функций. Эти 2 функции называются вершинным шейдером
+и фрагментным шейдером, и каждая из них написана на очень строго типизированном языке, похожем на C/C++, называемом
+<a href="webgl-shaders-and-glsl.html">GLSL</a>. (GL Shader Language). Вместе они называются <em>программой</em>.</p>
+<p>Задача вершинного шейдера - вычислять позиции вершин. На основе позиций, которые выводит функция,
+WebGL может затем растеризовать различные виды примитивов, включая <a href="webgl-points-lines-triangles.html">точки, линии или треугольники</a>.
+При растеризации этих примитивов он вызывает вторую пользовательскую функцию, называемую фрагментным шейдером.
+Задача фрагментного шейдера - вычислять цвет для каждого пикселя примитива, который в данный момент рисуется.</p>
+<p>Почти весь WebGL API посвящен <a href="../resources/webgl-state-diagram.html">настройке состояния</a> для выполнения этих пар функций.
+Для каждой вещи, которую вы хотите нарисовать, вы настраиваете кучу состояния, а затем выполняете пару функций, вызывая
+<code class="notranslate" translate="no">gl.drawArrays</code> или <code class="notranslate" translate="no">gl.drawElements</code>, который выполняет ваши шейдеры на GPU.</p>
+<p>Любые данные, к которым вы хотите, чтобы эти функции имели доступ, должны быть предоставлены GPU. Есть 4 способа,
+как шейдер может получать данные.</p>
+<ol>
+<li>
+<p>Атрибуты, буферы и вершинные массивы</p>
+<p>Буферы - это массивы бинарных данных, которые вы загружаете в GPU. Обычно буферы содержат
+такие вещи, как позиции, нормали, координаты текстуры, цвета вершин и т.д., хотя
+вы можете положить в них все, что хотите.</p>
+<p>Атрибуты используются для указания того, как
+извлекать данные из ваших буферов и предоставлять их вашему вершинному шейдеру.
+Например, вы можете положить позиции в буфер как три 32-битных float’а
+на позицию. Вы бы сказали конкретному атрибуту, из какого буфера извлекать позиции, какой тип
+данных он должен извлекать (3 компонента 32-битных чисел с плавающей точкой), какое смещение
+в буфере начинаются позиции, и сколько байт нужно получить от одной позиции до следующей.</p>
+<p>Буферы не являются случайным доступом. Вместо этого вершинный шейдер выполняется указанное количество
+раз. Каждый раз, когда он выполняется, извлекается следующее значение из каждого указанного буфера
+и присваивается атрибуту.</p>
+<p>Состояние атрибутов, какие буферы использовать для каждого из них, и как извлекать данные
+из этих буферов собирается в объект вершинного массива (VAO).</p>
+</li>
+<li>
+<p>Uniforms</p>
+<p>Uniforms - это эффективно глобальные переменные, которые вы устанавливаете перед выполнением вашей шейдерной программы.</p>
+</li>
+<li>
+<p>Текстуры</p>
+<p>Текстуры - это массивы данных, к которым вы можете получить случайный доступ в вашей шейдерной программе. Самая
+распространенная вещь, которую кладут в текстуру - это данные изображения, но текстуры - это просто данные и могут
+так же легко содержать что-то другое, кроме цветов.</p>
+</li>
+<li>
+<p>Varyings</p>
+<p>Varyings - это способ для вершинного шейдера передать данные фрагментному шейдеру. В зависимости
+от того, что рендерится, точки, линии или треугольники, значения, установленные на varying
+вершинным шейдером, будут интерполированы при выполнении фрагментного шейдера.</p>
+</li>
+</ol>
+<h2 id="webgl-hello-world">WebGL Hello World</h2>
+<p>WebGL заботится только о 2 вещах. Координаты clip space и цвета.
+Ваша задача как программиста, использующего WebGL, - предоставить WebGL эти 2 вещи.
+Вы предоставляете ваши 2 “шейдера” для этого. Вершинный шейдер, который предоставляет
+координаты clip space, и фрагментный шейдер, который предоставляет цвет.</p>
+<p>Координаты clip space всегда идут от -1 до +1 независимо от размера вашего
+canvas. Вот простой пример WebGL, который показывает WebGL в его простейшей форме.</p>
+<p>Давайте начнем с вершинного шейдера</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">#version 300 es
+
+// атрибут - это вход (in) в вершинный шейдер.
+// Он будет получать данные из буфера
+in vec4 a_position;
+
+// все шейдеры имеют главную функцию
+void main() {
+
+  // gl_Position - это специальная переменная, за установку которой
+  // отвечает вершинный шейдер
+  gl_Position = a_position;
+}
+</code></pre>
+<p>При выполнении, если бы вся вещь была написана в JavaScript вместо GLSL,
+вы могли бы представить, что она использовалась бы так</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// *** ПСЕВДО КОД!! ***
+
+var positionBuffer = [
+  0, 0, 0, 0,
+  0, 0.5, 0, 0,
+  0.7, 0, 0, 0,
+];
+var attributes = {};
+var gl_Position;
+
+drawArrays(..., offset, count) {
+  var stride = 4;
+  var size = 4;
+  for (var i = 0; i &lt; count; ++i) {
+     // копируем следующие 4 значения из positionBuffer в атрибут a_position
+     const start = offset + i * stride;
+     attributes.a_position = positionBuffer.slice(start, start + size);
+     runVertexShader();
+     ...
+     doSomethingWith_gl_Position();
+}
+</code></pre>
+<p>В реальности это не совсем так просто, потому что <code class="notranslate" translate="no">positionBuffer</code> нужно было бы преобразовать в бинарные
+данные (см. ниже), и поэтому фактическое вычисление для получения данных из буфера
+было бы немного другим, но надеюсь, это дает вам представление о том, как вершинный
+шейдер будет выполняться.</p>
+<p>Далее нам нужен фрагментный шейдер</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">#version 300 es
+
+// фрагментные шейдеры не имеют точности по умолчанию, поэтому нам нужно
+// выбрать одну. highp - хороший выбор по умолчанию. Это означает &quot;высокая точность&quot;
+precision highp float;
+
+// нам нужно объявить выход для фрагментного шейдера
+out vec4 outColor;
+
+void main() {
+  // Просто устанавливаем выход на константный красно-фиолетовый
+  outColor = vec4(1, 0, 0.5, 1);
+}
+</code></pre>
+<p>Выше мы объявили <code class="notranslate" translate="no">outColor</code> как выход нашего фрагментного шейдера. Мы устанавливаем <code class="notranslate" translate="no">outColor</code> в <code class="notranslate" translate="no">1, 0, 0.5, 1</code>,
+что означает 1 для красного, 0 для зеленого, 0.5 для синего, 1 для альфа. Цвета в WebGL идут от 0 до 1.</p>
+<p>Теперь, когда мы написали 2 шейдерные функции, давайте начнем с WebGL</p>
+<p>Сначала нам нужен HTML canvas элемент</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no"> &lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>Затем в JavaScript мы можем найти его</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no"> var canvas = document.querySelector(&quot;#c&quot;);
+</code></pre>
+<p>Теперь мы можем создать WebGL2RenderingContext</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no"> var gl = canvas.getContext(&quot;webgl2&quot;);
+ if (!gl) {
+    // нет webgl2 для вас!
+    ...
+</code></pre>
+<p>Теперь нам нужно скомпилировать эти шейдеры, чтобы поместить их на GPU, поэтому сначала нам нужно получить их в строки.
+Вы можете создавать ваши GLSL строки любым способом, которым вы обычно создаете строки в JavaScript. Например, конкатенацией,
+используя AJAX для их загрузки, помещая их в не-javascript script теги, или в данном случае в
+многострочные шаблонные строки.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var vertexShaderSource = `#version 300 es
+
+// атрибут - это вход (in) в вершинный шейдер.
+// Он будет получать данные из буфера
+in vec4 a_position;
+
+// все шейдеры имеют главную функцию
+void main() {
+
+  // gl_Position - это специальная переменная, за установку которой
+  // отвечает вершинный шейдер
+  gl_Position = a_position;
+}
+`;
+
+var fragmentShaderSource = `#version 300 es
+
+// фрагментные шейдеры не имеют точности по умолчанию, поэтому нам нужно
+// выбрать одну. highp - хороший выбор по умолчанию. Это означает &quot;высокая точность&quot;
+precision highp float;
+
+// нам нужно объявить выход для фрагментного шейдера
+out vec4 outColor;
+
+void main() {
+  // Просто устанавливаем выход на константный красно-фиолетовый
+  outColor = vec4(1, 0, 0.5, 1);
+}
+`;
+</code></pre>
+<p>Фактически, большинство 3D движков генерируют GLSL шейдеры на лету, используя различные типы шаблонов, конкатенацию и т.д.
+Для примеров на этом сайте, однако, ни один из них не достаточно сложен, чтобы нуждаться в генерации GLSL во время выполнения.</p>
+<blockquote>
+<p>ПРИМЕЧАНИЕ: <code class="notranslate" translate="no">#version 300 es</code> <strong>ДОЛЖНА БЫТЬ САМОЙ ПЕРВОЙ СТРОКОЙ ВАШЕГО ШЕЙДЕРА</strong>. Никаких комментариев или
+пустых строк не допускается перед ней! <code class="notranslate" translate="no">#version 300 es</code> говорит WebGL2, что вы хотите использовать язык шейдеров WebGL2,
+называемый GLSL ES 3.00. Если вы не поставите это как первую строку, язык шейдеров
+по умолчанию будет использовать GLSL ES 1.00 WebGL 1.0, который имеет много различий и гораздо меньше функций.</p>
+</blockquote>
+<p>Далее нам нужна функция, которая создаст шейдер, загрузит исходный код GLSL и скомпилирует шейдер.
+Обратите внимание, что я не написал никаких комментариев, потому что из названий функций должно быть ясно,
+что происходит.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function createShader(gl, type, source) {
+  var shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+  if (success) {
+    return shader;
+  }
+
+  console.log(gl.getShaderInfoLog(shader));
+  gl.deleteShader(shader);
+}
+</code></pre>
+<p>Теперь мы можем вызвать эту функцию для создания 2 шейдеров</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+</code></pre>
+<p>Затем нам нужно <em>связать</em> эти 2 шейдера в <em>программу</em></p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function createProgram(gl, vertexShader, fragmentShader) {
+  var program = gl.createProgram();
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  var success = gl.getProgramParameter(program, gl.LINK_STATUS);
+  if (success) {
+    return program;
+  }
+
+  console.log(gl.getProgramInfoLog(program));
+  gl.deleteProgram(program);
+}
+</code></pre>
+<p>И вызвать её</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var program = createProgram(gl, vertexShader, fragmentShader);
+</code></pre>
+<p>Теперь, когда мы создали программу GLSL на GPU, нам нужно предоставить ей данные.
+Большая часть API WebGL посвящен настройке состояния для предоставления данных нашим программам GLSL.
+В данном случае наш единственный ввод в программу GLSL - это <code class="notranslate" translate="no">a_position</code>, который является атрибутом.
+Первое, что мы должны сделать, - это найти местоположение атрибута для программы,
+которую мы только что создали</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var positionAttributeLocation = gl.getAttribLocation(program, &quot;a_position&quot;);
+</code></pre>
+<p>Поиск местоположений атрибутов (и uniform’ов) - это то, что вы должны
+делать во время инициализации, а не в цикле рендеринга.</p>
+<p>Атрибуты получают свои данные из буферов, поэтому нам нужно создать буфер</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var positionBuffer = gl.createBuffer();
+</code></pre>
+<p>WebGL позволяет нам манипулировать многими ресурсами WebGL на глобальных точках привязки.
+Вы можете думать о точках привязки как о внутренних глобальных переменных внутри WebGL.
+Сначала вы привязываете ресурс к точке привязки. Затем все остальные функции
+ссылаются на ресурс через точку привязки. Итак, давайте привяжем буфер позиций.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+</code></pre>
+<p>Теперь мы можем поместить данные в этот буфер, ссылаясь на него через точку привязки</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// три 2d точки
+var positions = [
+  0, 0,
+  0, 0.5,
+  0.7, 0,
+];
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+</code></pre>
+<p>Здесь происходит много всего. Первое - у нас есть <code class="notranslate" translate="no">positions</code>, который является
+массивом JavaScript. WebGL, с другой стороны, нужны строго типизированные данные, поэтому часть
+<code class="notranslate" translate="no">new Float32Array(positions)</code> создает новый массив 32-битных чисел с плавающей точкой
+и копирует значения из <code class="notranslate" translate="no">positions</code>. <code class="notranslate" translate="no">gl.bufferData</code> затем копирует эти данные в
+<code class="notranslate" translate="no">positionBuffer</code> на GPU. Он использует буфер позиций, потому что мы привязали
+его к точке привязки <code class="notranslate" translate="no">ARRAY_BUFFER</code> выше.</p>
+<p>Последний аргумент, <code class="notranslate" translate="no">gl.STATIC_DRAW</code>, является подсказкой для WebGL о том, как мы будем использовать данные.
+WebGL может попытаться использовать эту подсказку для оптимизации определенных вещей. <code class="notranslate" translate="no">gl.STATIC_DRAW</code> говорит WebGL,
+что мы вряд ли будем часто изменять эти данные.</p>
+<p>Теперь, когда мы поместили данные в буфер, нам нужно сказать атрибуту, как получать данные
+из него. Сначала нам нужно создать коллекцию состояния атрибутов, называемую Vertex Array Object.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var vao = gl.createVertexArray();
+</code></pre>
+<p>И нам нужно сделать это текущим массивом вершин, чтобы все наши настройки атрибутов
+применялись к этому набору состояния атрибутов</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl.bindVertexArray(vao);
+</code></pre>
+<p>Теперь мы наконец настраиваем атрибуты в массиве вершин. Сначала нам нужно включить атрибут.
+Это говорит WebGL, что мы хотим получать данные из буфера. Если мы не включим атрибут,
+то атрибут будет иметь постоянное значение.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl.enableVertexAttribArray(positionAttributeLocation);
+</code></pre>
+<p>Затем нам нужно указать, как извлекать данные</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var size = 2;          // 2 компонента на итерацию
+var type = gl.FLOAT;   // данные - это 32-битные float'ы
+var normalize = false; // не нормализовать данные
+var stride = 0;        // 0 = двигаться вперед на size * sizeof(type) каждый раз, чтобы получить следующую позицию
+var offset = 0;        // начать с начала буфера
+gl.vertexAttribPointer(
+    positionAttributeLocation, size, type, normalize, stride, offset)
+</code></pre>
+<p>Скрытая часть <code class="notranslate" translate="no">gl.vertexAttribPointer</code> заключается в том, что она привязывает текущий <code class="notranslate" translate="no">ARRAY_BUFFER</code>
+к атрибуту. Другими словами, теперь этот атрибут привязан к
+<code class="notranslate" translate="no">positionBuffer</code>. Это означает, что мы свободны привязать что-то еще к точке привязки <code class="notranslate" translate="no">ARRAY_BUFFER</code>.
+Атрибут продолжит использовать <code class="notranslate" translate="no">positionBuffer</code>.</p>
+<p>Обратите внимание, что с точки зрения нашего GLSL вершинного шейдера атрибут <code class="notranslate" translate="no">a_position</code> является <code class="notranslate" translate="no">vec4</code></p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">in vec4 a_position;
+</code></pre>
+<p><code class="notranslate" translate="no">vec4</code> - это 4 значения float. В JavaScript вы могли бы думать об этом как о чем-то вроде
+<code class="notranslate" translate="no">a_position = {x: 0, y: 0, z: 0, w: 0}</code>. Выше мы установили <code class="notranslate" translate="no">size = 2</code>. Атрибуты
+по умолчанию равны <code class="notranslate" translate="no">0, 0, 0, 1</code>, поэтому этот атрибут получит свои первые 2 значения (x и y)
+из нашего буфера. z и w будут по умолчанию 0 и 1 соответственно.</p>
+<p>Перед тем как рисовать, мы должны изменить размер холста, чтобы он соответствовал размеру отображения. Холсты, как и изображения, имеют 2 размера.
+Количество пикселей, фактически находящихся в них, и отдельно размер, в котором они отображаются. CSS определяет размер,
+в котором отображается холст. <strong>Вы всегда должны устанавливать размер, который вы хотите для холста, с помощью CSS</strong>, поскольку это намного
+более гибко, чем любой другой метод.</p>
+<p>Чтобы количество пикселей в холсте соответствовало размеру, в котором он отображается,
+<a href="webgl-resizing-the-canvas.html">я использую вспомогательную функцию, о которой вы можете прочитать здесь</a>.</p>
+<p>Почти во всех этих примерах размер холста составляет 400x300 пикселей, если пример запущен в собственном окне,
+но растягивается, чтобы заполнить доступное пространство, если он находится внутри iframe, как на этой странице.
+Позволяя CSS определять размер, а затем настраивая соответствие, мы легко обрабатываем оба этих случая.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+</code></pre>
+<p>Нам нужно сказать WebGL, как конвертировать из значений clip space,
+которые мы будем устанавливать в <code class="notranslate" translate="no">gl_Position</code>, обратно в пиксели, часто называемые screen space.
+Для этого мы вызываем <code class="notranslate" translate="no">gl.viewport</code> и передаем ему текущий размер холста.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+</code></pre>
+<p>Это говорит WebGL, что clip space -1 +1 отображается на 0 &lt;-&gt; <code class="notranslate" translate="no">gl.canvas.width</code> для x и 0 &lt;-&gt; <code class="notranslate" translate="no">gl.canvas.height</code>
+для y.</p>
+<p>Мы очищаем холст. <code class="notranslate" translate="no">0, 0, 0, 0</code> - это красный, зеленый, синий, альфа соответственно, поэтому в данном случае мы делаем холст прозрачным.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// Очищаем холст
+gl.clearColor(0, 0, 0, 0);
+gl.clear(gl.COLOR_BUFFER_BIT);
+</code></pre>
+<p>Далее нам нужно сказать WebGL, какую программу шейдеров выполнять.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// Говорим использовать нашу программу (пару шейдеров)
+gl.useProgram(program);
+</code></pre>
+<p>Затем нам нужно сказать, какой набор буферов использовать и как извлекать данные из этих буферов для
+предоставления атрибутам</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// Привязываем набор атрибутов/буферов, который мы хотим.
+gl.bindVertexArray(vao);
+</code></pre>
+<p>После всего этого мы наконец можем попросить WebGL выполнить нашу программу GLSL.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var primitiveType = gl.TRIANGLES;
+var offset = 0;
+var count = 3;
+gl.drawArrays(primitiveType, offset, count);
+</code></pre>
+<p>Поскольку count равен 3, это выполнит наш вершинный шейдер 3 раза. В первый раз <code class="notranslate" translate="no">a_position.x</code> и <code class="notranslate" translate="no">a_position.y</code>
+в нашем атрибуте вершинного шейдера будут установлены на первые 2 значения из positionBuffer.
+Во второй раз <code class="notranslate" translate="no">a_position.xy</code> будет установлен на вторые два значения. В последний раз он будет
+установлен на последние 2 значения.</p>
+<p>Поскольку мы установили <code class="notranslate" translate="no">primitiveType</code> в <code class="notranslate" translate="no">gl.TRIANGLES</code>, каждый раз, когда наш вершинный шейдер запускается 3 раза,
+WebGL нарисует треугольник на основе 3 значений, которые мы установили в <code class="notranslate" translate="no">gl_Position</code>. Неважно, какого размера
+наш холст, эти значения находятся в координатах clip space, которые идут от -1 до 1 в каждом направлении.</p>
+<p>Поскольку наш вершинный шейдер просто копирует значения positionBuffer в <code class="notranslate" translate="no">gl_Position</code>,
+треугольник будет нарисован в координатах clip space</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">  0, 0,
+  0, 0.5,
+  0.7, 0,
+</code></pre>
+<p>Конвертируя из clip space в screen space, если размер холста
+оказался 400x300, мы получили бы что-то вроде этого</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no"> clip space      screen space
+   0, 0       -&gt;   200, 150
+   0, 0.5     -&gt;   200, 225
+ 0.7, 0       -&gt;   340, 150 
+</code></pre>
+<p>WebGL теперь отрендерит этот треугольник. Для каждого пикселя, который он собирается нарисовать, WebGL вызовет наш фрагментный шейдер.
+Наш фрагментный шейдер просто устанавливает <code class="notranslate" translate="no">outColor</code> в <code class="notranslate" translate="no">1, 0, 0.5, 1</code>. Поскольку Canvas является 8-битным
+на канал холстом, это означает, что WebGL собирается записать значения <code class="notranslate" translate="no">[255, 0, 127, 255]</code> в холст.</p>
+<p>Вот живая версия</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-fundamentals.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-fundamentals.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>В случае выше вы можете видеть, что наш вершинный шейдер ничего не делает,
+кроме передачи наших данных позиции напрямую. Поскольку данные позиции уже
+в clip space, работы делать нечего. <em>Если вы хотите 3D, вам нужно предоставить
+шейдеры, которые конвертируют из 3D в clip space, потому что WebGL - это только
+API растеризации</em>.</p>
+<p>Вы можете задаться вопросом, почему треугольник начинается в центре и идет к верхнему правому углу.
+Clip space в <code class="notranslate" translate="no">x</code> идет от -1 до +1. Это означает, что 0 находится в центре, а положительные значения будут
+справа от этого.</p>
+<p>Что касается того, почему он находится сверху, в clip space -1 находится внизу, а +1 сверху. Это означает,
+что 0 находится в центре, и поэтому положительные числа будут выше центра.</p>
+<p>Для 2D вещей вы, вероятно, предпочли бы работать в пикселях, чем в clip space, поэтому
+давайте изменим шейдер так, чтобы мы могли предоставить позицию в пикселях и иметь
+его конвертировать в clip space для нас. Вот новый вершинный шейдер</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">#version 300 es
+
+// атрибут - это вход (in) в вершинный шейдер.
+// Он будет получать данные из буфера
+in vec2 a_position;
+
+uniform vec2 u_resolution;
+
+void main() {
+  // конвертируем позицию из пикселей в 0.0 до 1.0
+  vec2 zeroToOne = a_position / u_resolution;
+
+  // конвертируем из 0-&gt;1 в 0-&gt;2
+  vec2 zeroToTwo = zeroToOne * 2.0;
+
+  // конвертируем из 0-&gt;2 в -1-&gt;+1 (clip space)
+  vec2 clipSpace = zeroToTwo - 1.0;
+
+  gl_Position = vec4(clipSpace, 0, 1);
+}
+</code></pre>
+<p>Некоторые вещи, которые стоит заметить об изменениях. Мы изменили <code class="notranslate" translate="no">a_position</code> на <code class="notranslate" translate="no">vec2</code>, поскольку мы
+используем только <code class="notranslate" translate="no">x</code> и <code class="notranslate" translate="no">y</code> в любом случае. <code class="notranslate" translate="no">vec2</code> похож на <code class="notranslate" translate="no">vec4</code>, но имеет только <code class="notranslate" translate="no">x</code> и <code class="notranslate" translate="no">y</code>.</p>
+<p>Далее мы добавили <code class="notranslate" translate="no">uniform</code> под названием <code class="notranslate" translate="no">u_resolution</code>. Чтобы установить это, нам нужно найти его местоположение.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var resolutionUniformLocation = gl.getUniformLocation(program, &quot;u_resolution&quot;);
+</code></pre>
+<p>Остальное должно быть ясно из комментариев. Устанавливая <code class="notranslate" translate="no">u_resolution</code> в разрешение
+нашего холста, шейдер теперь будет принимать позиции, которые мы поместили в <code class="notranslate" translate="no">positionBuffer</code>, предоставленные
+в координатах пикселей, и конвертировать их в clip space.</p>
+<p>Теперь мы можем изменить наши значения позиции из clip space в пиксели. На этот раз мы собираемся нарисовать прямоугольник,
+сделанный из 2 треугольников, по 3 точки каждый.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">var positions = [
+  10, 20,
+  80, 20,
+  10, 30,
+  10, 30,
+  80, 20,
+  80, 30,
+];
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+</code></pre>
+<p>И после того, как мы установим, какую программу использовать, мы можем установить значение для uniform, который мы создали.
+<code class="notranslate" translate="no">gl.useProgram</code> похож на <code class="notranslate" translate="no">gl.bindBuffer</code> выше в том, что он устанавливает текущую программу. После
+этого все функции <code class="notranslate" translate="no">gl.uniformXXX</code> устанавливают uniforms на текущей программе.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl.useProgram(program);
+
+// Передаем разрешение холста, чтобы мы могли конвертировать из
+// пикселей в clip space в шейдере
+gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+</code></pre>
+<p>И конечно, чтобы нарисовать 2 треугольника, нам нужно, чтобы WebGL вызвал наш вершинный шейдер 6 раз,
+поэтому нам нужно изменить <code class="notranslate" translate="no">count</code> на <code class="notranslate" translate="no">6</code>.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">// рисуем
+var primitiveType = gl.TRIANGLES;
+var offset = 0;
+var count = 6;
+gl.drawArrays(primitiveType, offset, count);
+</code></pre>
+<p>И вот он</p>
+<p>Примечание: Этот пример и все следующие примеры используют <a href="/webgl/resources/webgl-utils.js"><code class="notranslate" translate="no">webgl-utils.js</code></a>,
+который содержит функции для компиляции и связывания шейдеров. Нет причин загромождать примеры
+этим <a href="webgl-boilerplate.html">boilerplate</a> кодом.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-2d-rectangle.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-2d-rectangle.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Снова вы можете заметить, что прямоугольник находится рядом с нижней частью этой области. WebGL считает положительный Y
+вверх, а отрицательный Y вниз. В clip space левый нижний угол -1,-1. Мы не изменили никаких знаков,
+поэтому с нашей текущей математикой 0, 0 становится левым нижним углом.
+Чтобы получить более традиционный левый верхний угол, используемый для 2D графических API,
+мы можем просто перевернуть координату y clip space.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+</code></pre>
+<p>И теперь наш прямоугольник находится там, где мы ожидаем.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-2d-rectangle-top-left.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-2d-rectangle-top-left.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Давайте сделаем код, который определяет прямоугольник, функцией, чтобы
+мы могли вызывать её для прямоугольников разных размеров. Пока мы этим занимаемся,
+мы сделаем цвет настраиваемым.</p>
+<p>Сначала мы делаем фрагментный шейдер принимающим uniform ввода цвета.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">#version 300 es
+
+precision highp float;
+
+uniform vec4 u_color;
+
+out vec4 outColor;
+
+void main() {
+  outColor = u_color;
+}
+</code></pre>
+<p>И вот новый код, который рисует 50 прямоугольников в случайных местах и случайных цветах.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">  var colorLocation = gl.getUniformLocation(program, &quot;u_color&quot;);
+  ...
+
+  // рисуем 50 случайных прямоугольников в случайных цветах
+  for (var ii = 0; ii &lt; 50; ++ii) {
+    // Настраиваем случайный прямоугольник
+    setRectangle(
+        gl, randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+
+    // Устанавливаем случайный цвет.
+    gl.uniform4f(colorLocation, Math.random(), Math.random(), Math.random(), 1);
+
+    // Рисуем прямоугольник.
+    var primitiveType = gl.TRIANGLES;
+    var offset = 0;
+    var count = 6;
+    gl.drawArrays(primitiveType, offset, count);
+  }
+}
+
+// Возвращает случайное целое число от 0 до range - 1.
+function randomInt(range) {
+  return Math.floor(Math.random() * range);
+}
+
+// Заполняет буфер значениями, которые определяют прямоугольник.
+
+function setRectangle(gl, x, y, width, height) {
+  var x1 = x;
+  var x2 = x + width;
+  var y1 = y;
+  var y2 = y + height;
+
+  // ПРИМЕЧАНИЕ: gl.bufferData(gl.ARRAY_BUFFER, ...) повлияет на
+  // любой буфер, привязанный к точке привязки `ARRAY_BUFFER`,
+  // но пока у нас только один буфер. Если бы у нас было больше одного
+  // буфера, мы бы хотели привязать этот буфер к `ARRAY_BUFFER` сначала.
+
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+     x1, y1,
+     x2, y1,
+     x1, y2,
+     x1, y2,
+     x2, y1,
+     x2, y2]), gl.STATIC_DRAW);
+}
+</code></pre>
+<p>И вот прямоугольники.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-2d-rectangles.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-2d-rectangles.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Я надеюсь, вы можете видеть, что WebGL на самом деле довольно простой API.
+Хорошо, простой может быть неправильным словом. То, что он делает, простое. Он просто
+выполняет 2 пользовательские функции, вершинный шейдер и фрагментный шейдер, и
+рисует треугольники, линии или точки.
+Хотя это может стать более сложным для 3D, эта сложность
+добавляется вами, программистом, в виде более сложных шейдеров.
+Сам API WebGL - это просто растеризатор и концептуально довольно прост.</p>
+<p>Мы рассмотрели небольшой пример, который показал, как предоставлять данные в атрибуте и 2 uniforms.
+Обычно иметь несколько атрибутов и много uniforms. Ближе к началу этой статьи
+мы также упомянули <em>varyings</em> и <em>текстуры</em>. Они появятся в последующих уроках.</p>
+<p>Прежде чем мы двинемся дальше, я хочу упомянуть, что для <em>большинства</em> приложений обновление
+данных в буфере, как мы делали в <code class="notranslate" translate="no">setRectangle</code>, не является обычным. Я использовал этот
+пример, потому что думал, что его легче всего объяснить, поскольку он показывает координаты пикселей
+как ввод и демонстрирует выполнение небольшого количества математики в GLSL. Это не неправильно, есть
+множество случаев, где это правильная вещь для делать, но вы должны <a href="webgl-2d-translation.html">продолжить читать, чтобы найти
+более обычный способ позиционировать, ориентировать и масштабировать вещи в WebGL</a>.</p>
+<p>Если вы на 100% новичок в WebGL и не имеете представления о том, что такое GLSL или шейдеры или что делает GPU,
+тогда посмотрите <a href="webgl-how-it-works.html">основы того, как WebGL действительно работает</a>.
+Вы также можете взглянуть на эту
+<a href="/webgl/lessons/resources/webgl-state-diagram.html">интерактивную диаграмму состояния</a>
+для другого способа понимания того, как работает WebGL.</p>
+<p>Вы также должны, по крайней мере кратко прочитать о <a href="webgl-boilerplate.html">boilerplate коде, используемом здесь</a>,
+который используется в большинстве примеров. Вы также должны хотя бы бегло просмотреть
+<a href="webgl-drawing-multiple-things.html">как рисовать несколько вещей</a>, чтобы дать вам некоторое представление
+о том, как структурированы более типичные WebGL приложения, потому что, к сожалению, почти все примеры
+рисуют только одну вещь и поэтому не показывают эту структуру.</p>
+<p>Иначе отсюда вы можете пойти в 2 направлениях. Если вас интересует обработка изображений,
+я покажу вам <a href="webgl-image-processing.html">как делать некоторую 2D обработку изображений</a>.
+Если вас интересует изучение трансляции,
+вращения и масштабирования, тогда <a href="webgl-2d-translation.html">начните отсюда</a>.</p>
+
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-fundamentals.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-fundamentals.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-fundamentals.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-fundamentals.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-fundamentals.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-fundamentals.html" selected>Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-fundamentals.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>Основы</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-getting-webgl2.html">Как использовать WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl-fundamentals.html">Основы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-how-it-works.html">Как это работает</a></li>
+<li><a href="/webgl/lessons/ru/webgl-shaders-and-glsl.html">Шейдеры и GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 Диаграмма состояния</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl2-whats-new.html">Что нового в WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl1-to-webgl2.html">Переход с WebGL1 на WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl1-to-webgl2-fundamentals.html">Отличия от WebGLFundamentals.org до WebGL2Fundamentals.org</a></li>
+        </ul>
+  <li>Обработка изображений</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-image-processing.html">Обработка изображений</a></li>
+<li><a href="/webgl/lessons/ru/webgl-image-processing-continued.html">Продвинутая обработка изображений</a></li>
+        </ul>
+  <li>2D трансформации, повороты, масштабирование и матричные операции</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-2d-translation.html">2D Трансляция</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-rotation.html">2D Вращение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-scale.html">2D Масштабирование</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-matrices.html">2D Матрицы</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-orthographic.html">Ортографическая 3D</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-perspective.html">3D Перспектива</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-camera.html">3D - Камеры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-matrix-naming.html">3D - Именование матриц</a></li>
+        </ul>
+  <li>Освещение</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-lighting-directional.html">Направленное освещение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-lighting-point.html">Точечное освещение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-lighting-spot.html">Прожекторное освещение</a></li>
+        </ul>
+  <li>Организация и рефакторинг</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-less-code-more-fun.html">Меньше кода, больше удовольствия</a></li>
+<li><a href="/webgl/lessons/ru/webgl-drawing-multiple-things.html">Рисование множественных объектов</a></li>
+<li><a href="/webgl/lessons/ru/webgl-scene-graph.html">Графы сцен</a></li>
+        </ul>
+  <li>Геометрия</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-geometry-lathe.html">3D Геометрия - Токарная обработка</a></li>
+<li><a href="/webgl/lessons/ru/webgl-load-obj.html">Загрузка .obj файлов</a></li>
+<li><a href="/webgl/lessons/ru/webgl-load-obj-w-mtl.html">Загрузка .obj с .mtl файлами</a></li>
+        </ul>
+  <li>Текстуры</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-textures.html">Текстуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-data-textures.html">Data Textures</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2-textures.html">Использование 2 или более текстур</a></li>
+<li><a href="/webgl/lessons/ru/webgl-cors-permission.html">Cross Origin Images</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-perspective-correct-texturemapping.html">Перспективно-корректное наложение текстур</a></li>
+<li><a href="/webgl/lessons/ru/webgl-planar-projection-mapping.html">Планарное и перспективное проекционное отображение</a></li>
+        </ul>
+  <li>Рендеринг в текстуру</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-render-to-texture.html">Рендеринг в текстуру</a></li>
+        </ul>
+  <li>Тени</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-shadows.html">Тени</a></li>
+        </ul>
+  <li>Техники</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-matrix-stack.html">2D - Стек Матриц</a></li>
+<li><a href="/webgl/lessons/ru/webgl-sprites.html">Спрайты</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-cube-maps.html">Кубические карты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-environment-maps.html">Карты окружения</a></li>
+<li><a href="/webgl/lessons/ru/webgl-skybox.html">Скайбоксы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-skinning.html">Скининг</a></li>
+<li><a href="/webgl/lessons/ru/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ru/webgl-picking.html">Выбор объектов (клик по объектам)</a></li>
+        </ul>
+  <li>Текст</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-text-html.html">Текст - HTML</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-canvas2d.html">Текст - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-texture.html">Текст - Использование текстуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-glyphs.html">Текст - Использование текстуры глифов</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Советы</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-smallest-programs.html">Самые маленькие программы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-drawing-without-data.html">Рисование без данных</a></li>
+<li><a href="/webgl/lessons/ru/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ru/webgl-pulling-vertices.html">Вытягивание вершин</a></li>
+        </ul>
+  <li>Оптимизация</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-indexed-vertices.html">Индексированные вершины (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ru/webgl-instanced-drawing.html">Инстансинг (Instanced Drawing)</a></li>
+        </ul>
+  <li>Разное</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-setup-and-installation.html">Настройка и установка</a></li>
+<li><a href="/webgl/lessons/ru/webgl-boilerplate.html">Boilerplate</a></li>
+<li><a href="/webgl/lessons/ru/webgl-resizing-the-canvas.html">Изменение размера Canvas</a></li>
+<li><a href="/webgl/lessons/ru/webgl-animation.html">Анимация</a></li>
+<li><a href="/webgl/lessons/ru/webgl-points-lines-triangles.html">Точки, линии и треугольники</a></li>
+<li><a href="/webgl/lessons/ru/webgl-multiple-views.html">Множественные виды, множественные canvas</a></li>
+<li><a href="/webgl/lessons/ru/webgl-visualizing-the-camera.html">Визуализация камеры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-and-alpha.html">WebGL2 и альфа-канал</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-vs-3d-library.html">2D против 3D библиотек</a></li>
+<li><a href="/webgl/lessons/ru/webgl-anti-patterns.html">Анти-паттерны</a></li>
+<li><a href="/webgl/lessons/ru/webgl-matrix-vs-math.html">WebGL2 Матрицы против математических матриц</a></li>
+<li><a href="/webgl/lessons/ru/webgl-precision-issues.html">Проблемы точности</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#screenshot">Скриншот канваса</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#preservedrawingbuffer">Как не очищать канвас</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#tabindex">Получение ввода с клавиатуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#html-background">Использование WebGL2 как фона в HTML</a></li>
+<li><a href="/webgl/lessons/ru/webgl-cross-platform-issues.html">Cross Platform Issues</a></li>
+<li><a href="/webgl/lessons/ru/webgl-qna.html">Questions and Answers</a></li>
+        </ul>
+  <li>Справочник</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-attributes.html">Атрибуты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-texture-units.html">Текстурные юниты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-framebuffers.html">Framebuffers</a></li>
+<li><a href="/webgl/lessons/ru/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ru/webgl-references.html">Ссылки</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">API документация</a></li>
+  <li><a href="https://twgljs.org">TWGL, легковесная библиотека-помощник для WebGL</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">GitHub</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+<div>Есть предложения или замечания? <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/issues">Создайте issue на GitHub</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'Основы WebGL2';
+            var disqus_title = 'Основы WebGL2';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "Спасибо <a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a><br>за <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} вкладов</a>",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ru/webgl-drawing-without-data.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Креативное программирование - Рисование без данных">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-drawing-without-data_ru.jpg">
+
+<meta property="og:title" content="WebGL2 Рисование без данных">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-drawing-without-data_ru.jpg">
+<meta property="og:description" content="Креативное программирование - Рисование без данных">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 Рисование без данных">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html">
+<meta name="twitter:description" content="Креативное программирование - Рисование без данных">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-drawing-without-data_ru.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-drawing-without-data_ru.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html",
+      "inLanguage":"ru",
+      "name":"WebGL2 Рисование без данных",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 Рисование без данных</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-drawing-without-data.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-drawing-without-data.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-drawing-without-data.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-drawing-without-data.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-drawing-without-data.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-drawing-without-data.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-drawing-without-data.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-drawing-without-data.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-drawing-without-data.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-drawing-without-data.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-drawing-without-data.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-drawing-without-data.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-drawing-without-data.html" selected>Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-drawing-without-data.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">Содержание</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ru/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 Рисование без данных</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>Эта статья предполагает, что вы прочитали многие другие статьи,
+начиная с <a href="webgl-fundamentals.html">основ</a>.
+Если вы их не читали, пожалуйста, начните сначала с них.</p>
+<p>В <a href="webgl-smallest-programs.html">статье о самых маленьких WebGL программах</a>
+мы рассмотрели некоторые примеры рисования с очень небольшим количеством кода.
+В этой статье мы рассмотрим рисование без данных.</p>
+<p>Традиционно WebGL приложения помещают геометрические данные в буферы.
+Затем они используют атрибуты для извлечения данных вершин из этих буферов
+в шейдеры и преобразования их в clip space.</p>
+<p>Слово <strong>традиционно</strong> важно. Это только <strong>традиция</strong>
+делать это таким образом. Это никоим образом не требование. WebGL не
+заботится о том, как мы это делаем, он заботится только о том, что наши вершинные шейдеры
+присваивают координаты clip space <code class="notranslate" translate="no">gl_Position</code>.</p>
+<p>В GLSL ES 3.0 есть специальная переменная <code class="notranslate" translate="no">gl_VertexID</code>,
+доступная в вершинных шейдерах. Эффективно она считает вершины.
+Давайте используем её для рисования вычисления позиций вершин без данных.
+Мы вычислим точки круга на основе этой переменной.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+uniform int numVerts;
+
+#define PI radians(180.0)
+
+void main() {
+  float u = float(gl_VertexID) / float(numVerts);  // идет от 0 до 1
+  float angle = u * PI * 2.0;                      // идет от 0 до 2PI
+  float radius = 0.8;
+
+  vec2 pos = vec2(cos(angle), sin(angle)) * radius;
+  
+  gl_Position = vec4(pos, 0, 1);
+  gl_PointSize = 5.0;
+}
+</code></pre>
+<p>Код выше должен быть довольно простым.
+<code class="notranslate" translate="no">gl_VertexID</code> будет считать от 0 до того количества
+вершин, которое мы просим нарисовать. Мы передадим то же число
+как <code class="notranslate" translate="no">numVerts</code>.
+На основе этого мы генерируем позиции для круга.</p>
+<p>Если бы мы остановились там, круг был бы эллипсом,
+потому что clip space нормализован (идет от -1 до 1)
+поперек и вниз по canvas. Если мы передадим разрешение,
+мы можем учесть, что -1 до 1 поперек может не
+представлять то же пространство, что и -1 до 1 вниз по canvas.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+uniform int numVerts;
+uniform vec2 resolution;
+
+#define PI radians(180.0)
+
+void main() {
+  float u = float(gl_VertexID) / float(numVerts);  // идет от 0 до 1
+  float angle = u * PI * 2.0;                      // идет от 0 до 2PI
+  float radius = 0.8;
+
+  vec2 pos = vec2(cos(angle), sin(angle)) * radius;
+  
+  float aspect = resolution.y / resolution.x;
+  vec2 scale = vec2(aspect, 1);
+  
+  gl_Position = vec4(pos * scale, 0, 1);
+  gl_PointSize = 5.0;
+}
+</code></pre>
+<p>И наш фрагментный шейдер может просто рисовать сплошной цвет</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+precision highp float;
+
+out vec4 outColor;
+
+void main() {
+  outColor = vec4(1, 0, 0, 1);
+}
+</code></pre>
+<p>В нашем JavaScript во время инициализации мы скомпилируем шейдер и найдем uniforms,</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// настройка GLSL программы
+const program = webglUtils.createProgramFromSources(gl, [vs, fs]);
+const numVertsLoc = gl.getUniformLocation(program, 'numVerts');
+const resolutionLoc = gl.getUniformLocation(program, 'resolution');
+</code></pre>
+<p>И для рендеринга мы будем использовать программу,
+установим uniforms <code class="notranslate" translate="no">resolution</code> и <code class="notranslate" translate="no">numVerts</code>, и нарисуем точки.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">gl.useProgram(program);
+
+const numVerts = 20;
+
+// сказать шейдеру количество вершин
+gl.uniform1i(numVertsLoc, numVerts);
+// сказать шейдеру разрешение
+gl.uniform2f(resolutionLoc, gl.canvas.width, gl.canvas.height);
+
+const offset = 0;
+gl.drawArrays(gl.POINTS, offset, numVerts);
+</code></pre>
+<p>И мы получаем круг из точек.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-no-data-point-circle.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-no-data-point-circle.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Полезна ли эта техника? Ну, с некоторым креативным кодом
+мы могли бы сделать звездное поле или простой эффект дождя с
+почти без данных и одним вызовом рисования.</p>
+<p>Давайте сделаем дождь, просто чтобы увидеть, как это работает. Сначала мы
+изменим вершинный шейдер на</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+uniform int numVerts;
+uniform float time;
+
+void main() {
+  float u = float(gl_VertexID) / float(numVerts);  // идет от 0 до 1
+  float x = u * 2.0 - 1.0;                         // -1 до 1
+  float y = fract(time + u) * -2.0 + 1.0;          // 1.0 -&gt;  -1.0
+
+  gl_Position = vec4(x, y, 0, 1);
+  gl_PointSize = 5.0;
+}
+</code></pre>
+<p>Для этой ситуации нам не нужно разрешение.</p>
+<p>Мы добавили uniform <code class="notranslate" translate="no">time</code>, который будет временем
+в секундах с момента загрузки страницы.</p>
+<p>Для ‘x’ мы просто пойдем от -1 до 1</p>
+<p>Для ‘y’ мы используем <code class="notranslate" translate="no">time + u</code>, но <code class="notranslate" translate="no">fract</code> возвращает
+только дробную часть, так что значение от 0.0 до 1.0.
+Расширяя это до 1.0 до -1.0, мы получаем y, который повторяется
+со временем, но тот, который смещен по-разному для каждой
+точки.</p>
+<p>Давайте изменим цвет на синий в фрагментном шейдере.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">precision highp float;
+
+out vec4 outColor;
+
+void main() {
+  outColor = vec4(0, 0, 1, 1);
+}
+</code></pre>
+<p>Затем в JavaScript нам нужно найти uniform времени</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// настройка GLSL программы
+const program = webglUtils.createProgramFromSources(gl, [vs, fs]);
+const numVertsLoc = gl.getUniformLocation(program, 'numVerts');
+const timeLoc = gl.getUniformLocation(program, 'time');
+</code></pre>
+<p>И нам нужно преобразовать код в <a href="webgl-animation.html">анимацию</a>,
+создав цикл рендеринга и установив uniform <code class="notranslate" translate="no">time</code>.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function render(time) {
+  time *= 0.001;  // преобразовать в секунды
+
+  webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+  gl.useProgram(program);
+
+  const numVerts = 20;
+
+  // сказать шейдеру количество вершин
+  gl.uniform1i(numVertsLoc, numVerts);
+  // сказать шейдеру время
+  gl.uniform1f(timeLoc, time);
+
+  const offset = 0;
+  gl.drawArrays(gl.POINTS, offset, numVerts);
+} 
+</code></pre>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-no-data-point-rain-linear.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-no-data-point-rain-linear.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Это дает нам POINTS, идущие вниз по экрану, но они все
+в порядке. Нам нужно добавить некоторую случайность. В GLSL нет
+генератора случайных чисел. Вместо этого мы можем использовать
+функцию, которая генерирует что-то, что кажется достаточно случайным.</p>
+<p>Вот одна</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">// hash функция из https://www.shadertoy.com/view/4djSRW
+// дано значение между 0 и 1
+// возвращает значение между 0 и 1, которое *выглядит* довольно случайным
+float hash(float p) {
+  vec2 p2 = fract(vec2(p * 5.3983, p * 5.4427));
+  p2 += dot(p2.yx, p2.xy + vec2(21.5351, 14.3137));
+  return fract(p2.x * p2.y * 95.4337);
+}
+</code></pre>
+<p>и мы можем использовать это так</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">void main() {
+  float u = float(gl_VertexID) / float(numVerts);  // идет от 0 до 1
+  float x = hash(u) * 2.0 - 1.0;                   // случайная позиция
+  float y = fract(time + u) * -2.0 + 1.0;          // 1.0 -&gt;  -1.0
+
+  gl_Position = vec4(x, y, 0, 1);
+  gl_PointSize = 2.0;
+}
+</code></pre>
+<p>Мы передаем <code class="notranslate" translate="no">hash</code> наше предыдущее значение от 0 до 1, и оно дает нам
+обратно псевдослучайное значение от 0 до 1.</p>
+<p>Давайте также сделаем точки меньше</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">  gl_Position = vec4(x, y, 0, 1);
+  gl_PointSize = 2.0;
+</code></pre>
+<p>И увеличим количество точек, которые мы рисуем</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const numVerts = 400;
+</code></pre>
+<p>И с этим мы получаем</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-no-data-point-rain.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-no-data-point-rain.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Если вы посмотрите очень внимательно, вы можете увидеть, что дождь повторяется.
+Ищите какую-то группу точек и смотрите, как они падают с
+низа и появляются обратно сверху.
+Если бы на заднем плане происходило больше, как если бы
+этот дешевый эффект дождя происходил поверх 3D игры,
+возможно, никто никогда не заметил бы, что он повторяется.</p>
+<p>Мы можем исправить повторение, добавив немного больше случайности.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">void main() {
+  float u = float(gl_VertexID) / float(numVerts);  // идет от 0 до 1
+  float off = floor(time + u) / 1000.0;           // изменяется раз в секунду на вершину
+  float x = hash(u + off) * 2.0 - 1.0;            // случайная позиция
+  float y = fract(time + u) * -2.0 + 1.0;         // 1.0 -&gt;  -1.0
+
+  gl_Position = vec4(x, y, 0, 1);
+  gl_PointSize = 2.0;
+}
+</code></pre>
+<p>В коде выше мы добавили <code class="notranslate" translate="no">off</code>. Поскольку мы вызываем <code class="notranslate" translate="no">floor</code>,
+значение <code class="notranslate" translate="no">floor(time + u)</code> будет эффективно давать нам
+секундный таймер, который изменяется только раз в секунду для каждой вершины.
+Это смещение синхронизировано с кодом, перемещающим точку вниз по экрану,
+так что в тот же момент, когда точка прыгает обратно наверх
+экрана, добавляется небольшое количество к значению,
+которое передается в <code class="notranslate" translate="no">hash</code>, что означает, что эта конкретная точка
+получит новое случайное число и, следовательно, новую случайную горизонтальную позицию.</p>
+<p>Результат - эффект дождя, который не кажется повторяющимся</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-no-data-point-rain-less-repeat.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-no-data-point-rain-less-repeat.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Можем ли мы делать больше, чем <code class="notranslate" translate="no">gl.POINTS</code>? Конечно!</p>
+<p>Давайте сделаем круги. Для этого нам нужны треугольники вокруг
+центра, как ломтики пирога. Мы можем думать о каждом треугольнике
+как о 2 точках вокруг края пирога, за которыми следует 1 точка в центре.
+Затем мы повторяем для каждого ломтика пирога.</p>
+<div class="webgl_center"><img src="../resources/circle-points.svg" style="width: 400px;"></div>
+<p>Итак, сначала мы хотим какой-то счетчик, который изменяется раз на ломтик пирога</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">int sliceId = gl_VertexID / 3;
+</code></pre>
+<p>Затем нам нужен счет вокруг края круга, который идет</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">0, 1, ?, 1, 2, ?, 2, 3, ?, ...
+</code></pre>
+<p>Значение ? не имеет значения, потому что, глядя на
+диаграмму выше, 3-е значение всегда в центре (0,0),
+так что мы можем просто умножить на 0 независимо от значения.</p>
+<p>Чтобы получить паттерн выше, это сработает</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">int triVertexId = gl_VertexID % 3;
+int edge = triVertexId + sliceId;
+</code></pre>
+<p>Для точек на краю против точек в центре нам нужен
+этот паттерн. 2 на краю, затем 1 в центре, повторять.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">1, 1, 0, 1, 1, 0, 1, 1, 0, ...
+</code></pre>
+<p>Мы можем получить этот паттерн с</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">float radius = step(1.5, float(triVertexId));
+</code></pre>
+<p><code class="notranslate" translate="no">step(a, b)</code> это 0, если a &lt; b, и 1 в противном случае. Вы можете думать об этом как</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function step(a, b) {
+  return a &lt; b ? 0 : 1;
+}
+</code></pre>
+<p><code class="notranslate" translate="no">step(1.5, float(triVertexId))</code> будет 1, когда 1.5 меньше <code class="notranslate" translate="no">triVertexId</code>.
+Это верно для первых 2 вершин каждого треугольника и ложно
+для последней.</p>
+<p>Мы можем получить вершины треугольника для круга так</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">int numSlices = 8;
+int sliceId = gl_VertexID / 3;
+int triVertexId = gl_VertexID % 3;
+int edge = triVertexId + sliceId;
+float angleU = float(edge) / float(numSlices);  // 0.0 до 1.0
+float angle = angleU * PI * 2.0;
+float radius = step(float(triVertexId), 1.5);
+vec2 pos = vec2(cos(angle), sin(angle)) * radius;
+</code></pre>
+<p>Собрав все это вместе, давайте просто попробуем нарисовать 1 круг.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">#version 300 es
+uniform int numVerts;
+uniform vec2 resolution;
+
+#define PI radians(180.0)
+
+void main() {
+  int numSlices = 8;
+  int sliceId = gl_VertexID / 3;
+  int triVertexId = gl_VertexID % 3;
+  int edge = triVertexId + sliceId;
+  float angleU = float(edge) / float(numSlices);  // 0.0 до 1.0
+  float angle = angleU * PI * 2.0;
+  float radius = step(float(triVertexId), 1.5);
+  vec2 pos = vec2(cos(angle), sin(angle)) * radius;
+
+  float aspect = resolution.y / resolution.x;
+  vec2 scale = vec2(aspect, 1);
+  
+  gl_Position = vec4(pos * scale, 0, 1);
+}
+</code></pre>
+<p>Обратите внимание, мы вернули <code class="notranslate" translate="no">resolution</code>, чтобы не получить эллипс.</p>
+<p>Для 8-срезового круга нам нужно 8 * 3 вершин</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const numVerts = 8 * 3;
+</code></pre>
+<p>и нам нужно рисовать <code class="notranslate" translate="no">TRIANGLES</code>, а не <code class="notranslate" translate="no">POINTS</code></p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const offset = 0;
+gl.drawArrays(gl.TRIANGLES, offset, numVerts);
+</code></pre>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-no-data-triangles-circle.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-no-data-triangles-circle.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>А что, если бы мы хотели нарисовать несколько кругов?</p>
+<p>Все, что нам нужно сделать, это придумать <code class="notranslate" translate="no">circleId</code>, который мы
+можем использовать для выбора некоторой позиции для каждого круга, которая
+одинакова для всех вершин в круге.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">int numVertsPerCircle = numSlices * 3;
+int circleId = gl_VertexID / numVertsPerCircle;
+</code></pre>
+<p>Например, давайте нарисуем круг из кругов.</p>
+<p>Сначала давайте превратим код выше в функцию,</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">vec2 computeCircleTriangleVertex(int vertexId) {
+  int numSlices = 8;
+  int sliceId = vertexId / 3;
+  int triVertexId = vertexId % 3;
+  int edge = triVertexId + sliceId;
+  float angleU = float(edge) / float(numSlices);  // 0.0 до 1.0
+  float angle = angleU * PI * 2.0;
+  float radius = step(float(triVertexId), 1.5);
+  return vec2(cos(angle), sin(angle)) * radius;
+}
+</code></pre>
+<p>Теперь вот оригинальный код, который мы использовали для рисования
+круга из точек в начале этой статьи.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">float u = float(gl_VertexID) / float(numVerts);  // идет от 0 до 1
+float angle = u * PI * 2.0;                      // идет от 0 до 2PI
+float radius = 0.8;
+
+vec2 pos = vec2(cos(angle), sin(angle)) * radius;
+
+float aspect = resolution.y / resolution.x;
+vec2 scale = vec2(aspect, 1);
+
+gl_Position = vec4(pos * scale, 0, 1);
+</code></pre>
+<p>Нам просто нужно изменить его, чтобы использовать <code class="notranslate" translate="no">circleId</code> вместо
+<code class="notranslate" translate="no">vertexId</code> и делить на количество кругов
+вместо количества вершин.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-glsl">void main() {
+  int circleId = gl_VertexID / numVertsPerCircle;
+  int numCircles = numVerts / numVertsPerCircle;
+
+  float u = float(circleId) / float(numCircles);  // идет от 0 до 1
+  float angle = u * PI * 2.0;                     // идет от 0 до 2PI
+  float radius = 0.8;
+
+  vec2 pos = vec2(cos(angle), sin(angle)) * radius;
+
+  vec2 triPos = computeCircleTriangleVertex(gl_VertexID) * 0.1;
+  
+  float aspect = resolution.y / resolution.x;
+  vec2 scale = vec2(aspect, 1);
+  
+  gl_Position = vec4((pos + triPos) * scale, 0, 1);
+}
+</code></pre>
+<p>Затем нам просто нужно увеличить количество вершин</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const numVerts = 8 * 3 * 20;
+</code></pre>
+<p>И теперь у нас есть круг из 20 кругов.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-no-data-triangles-circles.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-no-data-triangles-circles.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>И, конечно, мы могли бы применить те же вещи, которые мы делали
+выше, чтобы сделать дождь из кругов. Это, вероятно, не имеет
+смысла, поэтому я не буду проходить через это, но это показывает
+создание треугольников в вершинном шейдере без данных.</p>
+<p>Вышеуказанная техника могла бы использоваться для создания прямоугольников
+или квадратов вместо этого, затем генерации UV координат,
+передачи их в фрагментный шейдер и текстурирования
+нашей сгенерированной геометрии. Это могло бы быть хорошо для
+падающих снежинок или листьев, которые фактически переворачиваются в 3D,
+применяя 3D техники, которые мы использовали в статьях
+о <a href="webgl-3d-perspective.html">3D перспективе</a>.</p>
+<p>Я хочу подчеркнуть, что <strong>эти техники</strong> не являются обычными.
+Создание простой системы частиц может быть полу-обычным или
+эффект дождя выше, но создание чрезвычайно сложных вычислений
+повредит производительности. В общем, если вы хотите производительности,
+вы должны попросить ваш компьютер делать как можно меньше работы,
+так что если есть куча вещей, которые вы можете предварительно вычислить во время инициализации
+и передать в шейдер в той или иной форме, вы
+должны сделать это.</p>
+<p>Например, вот экстремальный вершинный шейдер,
+который вычисляет кучу кубов (предупреждение, есть звук).</p>
+<iframe width="700" height="400" src="https://www.vertexshaderart.com/art/zd2E5vCZduc5JeoFz" frameborder="0" allowfullscreen></iframe>
+<p>Как интеллектуальное любопытство головоломки “Если бы у меня не было данных,
+кроме vertex id, мог бы я нарисовать что-то интересное?” это
+довольно аккуратно. Фактически <a href="https://www.vertexshaderart.com">весь этот сайт</a> о
+головоломке, если у вас есть только vertex id, можете ли вы сделать что-то
+интересное. Но для производительности было бы намного намного быстрее использовать
+более традиционные техники передачи данных вершин куба
+в буферы и чтения этих данных с атрибутами или другими техниками,
+которые мы рассмотрим в других статьях.</p>
+<p>Есть некоторый баланс, который нужно найти. Для примера дождя выше, если вы хотите точно этот
+эффект, то код выше довольно эффективен. Где-то между
+двумя лежит граница, где одна техника более производительна,
+чем другая. Обычно более традиционные техники намного более гибкие
+также, но вам нужно решать на основе случая за случаем, когда использовать один
+способ или другой.</p>
+<p>Цель этой статьи в основном познакомить с этими идеями
+и подчеркнуть другие способы мышления о том, что WebGL
+фактически делает. Снова ему все равно, что вы устанавливаете <code class="notranslate" translate="no">gl_Position</code>
+и выводите цвет в ваших шейдерах. Ему все равно, как вы это делаете.</p>
+<div class="webgl_bottombar" id="pointsissues">
+<h3>Проблема с <code class="notranslate" translate="no">gl.POINTS</code></h3>
+<p>
+Одна вещь, для которой техника вроде этой может быть полезной, это симуляция рисования
+с <code class="notranslate" translate="no">gl.POINTS</code>.
+</p>
+<p>Есть 2 проблемы с <code class="notranslate" translate="no">gl.POINTS</code></p>
+<ol>
+<li>У них максимальный размер<br/><br/>Большинство людей, использующих <code class="notranslate" translate="no">gl.POINTS</code>, используют маленькие размеры,
+но если этот максимальный размер меньше, чем вам нужно, вам нужно будет выбрать другое решение.
+</li>
+<li>Как они обрезаются, когда за пределами экрана, непоследовательно<br/><br/>
+Проблема здесь в том, что представьте, что вы устанавливаете центр точки в 1 пиксель от левого края
+canvas, но вы устанавливаете <code class="notranslate" translate="no">gl_PointSize</code> в 32.0.
+<div class="webgl_center"><img src="../resources/point-outside-canvas.svg" style="width: 400px"></div>
+Согласно спецификации OpenGL ES 3.0
+то, что должно произойти, это то, что поскольку 15 столбцов из этих 32x32 пикселей все еще на canvas,
+они должны быть нарисованы. К сожалению, OpenGL (не ES) говорит прямо противоположное.
+Если центр точки за пределами canvas, ничего не рисуется. Еще хуже, OpenGL до
+недавнего времени был печально известен недостаточным тестированием, поэтому некоторые драйверы рисуют эти пиксели,
+а некоторые нет 😭
+</li>
+</ol>
+<p>
+Итак, если любая из этих проблем является проблемой для ваших потребностей, то как решение вам нужно рисовать свои собственные квады
+с <code class="notranslate" translate="no">gl.TRIANGLES</code> вместо использования <code class="notranslate" translate="no">gl.POINTS</code>.
+ Если вы сделаете это, обе проблемы решены.
+Проблема максимального размера исчезает, как и проблема непоследовательной обрезки. Есть различные
+способы рисовать много квадов. <a href="https://jsgist.org/?src=6306857bfd65adbdcd54b0051d441935">Один из них использует техники вроде тех, что в этой статье</a>.</p>
+</div> 
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-drawing-without-data.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-drawing-without-data.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-drawing-without-data.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-drawing-without-data.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-drawing-without-data.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-drawing-without-data.html" selected>Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-drawing-without-data.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>Основы</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-getting-webgl2.html">Как использовать WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl-fundamentals.html">Основы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-how-it-works.html">Как это работает</a></li>
+<li><a href="/webgl/lessons/ru/webgl-shaders-and-glsl.html">Шейдеры и GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 Диаграмма состояния</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl2-whats-new.html">Что нового в WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl1-to-webgl2.html">Переход с WebGL1 на WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl1-to-webgl2-fundamentals.html">Отличия от WebGLFundamentals.org до WebGL2Fundamentals.org</a></li>
+        </ul>
+  <li>Обработка изображений</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-image-processing.html">Обработка изображений</a></li>
+<li><a href="/webgl/lessons/ru/webgl-image-processing-continued.html">Продвинутая обработка изображений</a></li>
+        </ul>
+  <li>2D трансформации, повороты, масштабирование и матричные операции</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-2d-translation.html">2D Трансляция</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-rotation.html">2D Вращение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-scale.html">2D Масштабирование</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-matrices.html">2D Матрицы</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-orthographic.html">Ортографическая 3D</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-perspective.html">3D Перспектива</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-camera.html">3D - Камеры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-matrix-naming.html">3D - Именование матриц</a></li>
+        </ul>
+  <li>Освещение</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-lighting-directional.html">Направленное освещение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-lighting-point.html">Точечное освещение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-lighting-spot.html">Прожекторное освещение</a></li>
+        </ul>
+  <li>Организация и рефакторинг</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-less-code-more-fun.html">Меньше кода, больше удовольствия</a></li>
+<li><a href="/webgl/lessons/ru/webgl-drawing-multiple-things.html">Рисование множественных объектов</a></li>
+<li><a href="/webgl/lessons/ru/webgl-scene-graph.html">Графы сцен</a></li>
+        </ul>
+  <li>Геометрия</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-geometry-lathe.html">3D Геометрия - Токарная обработка</a></li>
+<li><a href="/webgl/lessons/ru/webgl-load-obj.html">Загрузка .obj файлов</a></li>
+<li><a href="/webgl/lessons/ru/webgl-load-obj-w-mtl.html">Загрузка .obj с .mtl файлами</a></li>
+        </ul>
+  <li>Текстуры</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-textures.html">Текстуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-data-textures.html">Data Textures</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2-textures.html">Использование 2 или более текстур</a></li>
+<li><a href="/webgl/lessons/ru/webgl-cors-permission.html">Cross Origin Images</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-perspective-correct-texturemapping.html">Перспективно-корректное наложение текстур</a></li>
+<li><a href="/webgl/lessons/ru/webgl-planar-projection-mapping.html">Планарное и перспективное проекционное отображение</a></li>
+        </ul>
+  <li>Рендеринг в текстуру</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-render-to-texture.html">Рендеринг в текстуру</a></li>
+        </ul>
+  <li>Тени</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-shadows.html">Тени</a></li>
+        </ul>
+  <li>Техники</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-matrix-stack.html">2D - Стек Матриц</a></li>
+<li><a href="/webgl/lessons/ru/webgl-sprites.html">Спрайты</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-cube-maps.html">Кубические карты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-environment-maps.html">Карты окружения</a></li>
+<li><a href="/webgl/lessons/ru/webgl-skybox.html">Скайбоксы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-skinning.html">Скининг</a></li>
+<li><a href="/webgl/lessons/ru/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ru/webgl-picking.html">Выбор объектов (клик по объектам)</a></li>
+        </ul>
+  <li>Текст</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-text-html.html">Текст - HTML</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-canvas2d.html">Текст - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-texture.html">Текст - Использование текстуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-glyphs.html">Текст - Использование текстуры глифов</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Советы</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-smallest-programs.html">Самые маленькие программы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-drawing-without-data.html">Рисование без данных</a></li>
+<li><a href="/webgl/lessons/ru/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ru/webgl-pulling-vertices.html">Вытягивание вершин</a></li>
+        </ul>
+  <li>Оптимизация</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-indexed-vertices.html">Индексированные вершины (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ru/webgl-instanced-drawing.html">Инстансинг (Instanced Drawing)</a></li>
+        </ul>
+  <li>Разное</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-setup-and-installation.html">Настройка и установка</a></li>
+<li><a href="/webgl/lessons/ru/webgl-boilerplate.html">Boilerplate</a></li>
+<li><a href="/webgl/lessons/ru/webgl-resizing-the-canvas.html">Изменение размера Canvas</a></li>
+<li><a href="/webgl/lessons/ru/webgl-animation.html">Анимация</a></li>
+<li><a href="/webgl/lessons/ru/webgl-points-lines-triangles.html">Точки, линии и треугольники</a></li>
+<li><a href="/webgl/lessons/ru/webgl-multiple-views.html">Множественные виды, множественные canvas</a></li>
+<li><a href="/webgl/lessons/ru/webgl-visualizing-the-camera.html">Визуализация камеры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-and-alpha.html">WebGL2 и альфа-канал</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-vs-3d-library.html">2D против 3D библиотек</a></li>
+<li><a href="/webgl/lessons/ru/webgl-anti-patterns.html">Анти-паттерны</a></li>
+<li><a href="/webgl/lessons/ru/webgl-matrix-vs-math.html">WebGL2 Матрицы против математических матриц</a></li>
+<li><a href="/webgl/lessons/ru/webgl-precision-issues.html">Проблемы точности</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#screenshot">Скриншот канваса</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#preservedrawingbuffer">Как не очищать канвас</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#tabindex">Получение ввода с клавиатуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#html-background">Использование WebGL2 как фона в HTML</a></li>
+<li><a href="/webgl/lessons/ru/webgl-cross-platform-issues.html">Cross Platform Issues</a></li>
+<li><a href="/webgl/lessons/ru/webgl-qna.html">Questions and Answers</a></li>
+        </ul>
+  <li>Справочник</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-attributes.html">Атрибуты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-texture-units.html">Текстурные юниты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-framebuffers.html">Framebuffers</a></li>
+<li><a href="/webgl/lessons/ru/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ru/webgl-references.html">Ссылки</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">API документация</a></li>
+  <li><a href="https://twgljs.org">TWGL, легковесная библиотека-помощник для WebGL</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">GitHub</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+<div>Есть предложения или замечания? <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/issues">Создайте issue на GitHub</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 Рисование без данных';
+            var disqus_title = 'WebGL2 Рисование без данных';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "Спасибо <a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a><br>за <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} вкладов</a>",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

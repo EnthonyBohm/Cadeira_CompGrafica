@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from webgl/lessons/ru/webgl-resizing-the-canvas.md. Do not edited directly -->
+<!--
+Copyright 2021, GFXFundamentals.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+*   Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+*   Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+
+*   Neither the name of GFXFundamentals. nor the names of his
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Как изменить размер WebGL canvas и связанные с этим проблемы">
+<meta name="keywords" content="webgl webgl2 graphics">
+<meta name="thumbnail" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_ru.jpg">
+
+<meta property="og:title" content="WebGL2 Изменение размера Canvas.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_ru.jpg">
+<meta property="og:description" content="Как изменить размер WebGL canvas и связанные с этим проблемы">
+<meta property="og:url" content="https://webgl2fundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="webgl2fundamentals.org">
+<meta name="twitter:title" content="WebGL2 Изменение размера Canvas.">
+<meta name="twitter:url" content="https://webgl2fundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html">
+<meta name="twitter:description" content="Как изменить размер WebGL canvas и связанные с этим проблемы">
+<meta name="twitter:image:src" content="https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_ru.jpg">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://webgl2fundamentals.org/#website",
+      "url":"https://webgl2fundamentals.org/",
+      "name":"Webgl2Fundamentals"
+    },
+    {
+      "@type":"ImageObject",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html#primaryimage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/screenshots/webgl-resizing-the-canvas_ru.jpg",
+      "width":1200,
+      "height":630
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html#webpage",
+      "url":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html",
+      "inLanguage":"ru",
+      "name":"WebGL2 Изменение размера Canvas.",
+      "keywords":"webgl webgl2 graphics programming",
+      "isPartOf":{
+        "@id":"https://webgl2fundamentals.org/#website"
+      },
+      "primaryImageOfPage":{
+        "@id":"https://webgl2fundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html#primaryimage"
+      }
+    }
+  ]
+}
+</script>
+
+
+<title>WebGL2 Изменение размера Canvas.</title>
+<link href="/webgl/lessons/resources/webgl2fundamentals-icon.png" rel="shortcut icon" type="image/png">
+<link rel="stylesheet" href="/webgl/lessons/lang.css">
+<link rel="stylesheet" href="/webgl/lessons/resources/lesson.css">
+
+  <link rel="alternate" hreflang="en" href="https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="de" href="https://webglfundamentals.org/webgl/lessons/de/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="ja" href="https://webglfundamentals.org/webgl/lessons/ja/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="ko" href="https://webglfundamentals.org/webgl/lessons/ko/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="pt-br" href="https://webglfundamentals.org/webgl/lessons/pt-br/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="ru" href="https://webglfundamentals.org/webgl/lessons/ru/webgl-resizing-the-canvas.html">
+  <link rel="alternate" hreflang="zh_cn" href="https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html">
+
+
+
+
+</head>
+<body>
+<div class="webgl_navbar">
+  <div>
+    <select class="language">
+    <option value="/webgl/lessons/webgl-resizing-the-canvas.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-resizing-the-canvas.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-resizing-the-canvas.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-resizing-the-canvas.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-resizing-the-canvas.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-resizing-the-canvas.html" selected>Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html" >简体中文</a>
+</select>
+
+
+    <a href="#toc">Содержание</a>
+    <input type="search" placeholder="?" id="search">
+  </div>
+</div>
+<div class="webgl_header">
+  <h1><a href="/webgl/lessons/ru/">WebGL2Fundamentals.org</a></h1>
+<style>
+#forkongithub>div {
+    background: #000;
+    color: #fff;
+    font-family: arial,sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    position: relative;
+    transition: 0.5s;
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(200px) rotate(45deg) translate(10px,70px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
+    pointer-events: auto;
+}
+#forkongithub a {
+  text-decoration: none;
+  color: #fff;
+}
+#forkongithub>div:hover {
+    background: #c11;
+    color: #fff;
+}
+#forkongithub .contributors {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  line-height: 1.2;
+  padding: 0.1em;
+}
+#forkongithub>div::before,#forkongithub>div::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #fff;
+}
+#forkongithub>div::after {
+    bottom: 1px;
+    top: auto;
+}
+
+#forkongithub{
+    z-index: 9999;
+    /* needed for firefox */
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+}
+#forkongithub svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+#forkongithub img {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #forkongithub>div {
+        line-height: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+  #forkongithub {
+    display: none;
+  }
+}
+@media (max-width: 410px) {
+    #forkongithub>div {
+        font-size: 0.7rem;
+        transform: translateX(150px) rotate(45deg) translate(20px,40px);
+    }
+}
+
+</style>
+<div id="forkongithub"><div><div><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">Fix, Fork, Contribute <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 136 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.92891,0,0,3.92891,67.867,129.125)">
+        <path d="M0,-31.904C-8.995,-31.904 -16.288,-24.611 -16.288,-15.614C-16.288,-8.417 -11.621,-2.312 -5.148,-0.157C-4.333,-0.008 -4.036,-0.511 -4.036,-0.943C-4.036,-1.329 -4.05,-2.354 -4.058,-3.713C-8.589,-2.729 -9.545,-5.897 -9.545,-5.897C-10.286,-7.779 -11.354,-8.28 -11.354,-8.28C-12.833,-9.29 -11.242,-9.27 -11.242,-9.27C-9.607,-9.155 -8.747,-7.591 -8.747,-7.591C-7.294,-5.102 -4.934,-5.821 -4.006,-6.238C-3.858,-7.29 -3.438,-8.008 -2.972,-8.415C-6.589,-8.826 -10.392,-10.224 -10.392,-16.466C-10.392,-18.244 -9.757,-19.698 -8.715,-20.837C-8.883,-21.249 -9.442,-22.905 -8.556,-25.148C-8.556,-25.148 -7.188,-25.586 -4.076,-23.478C-2.777,-23.84 -1.383,-24.02 0.002,-24.026C1.385,-24.02 2.779,-23.84 4.08,-23.478C7.19,-25.586 8.555,-25.148 8.555,-25.148C9.444,-22.905 8.885,-21.249 8.717,-20.837C9.761,-19.698 10.392,-18.244 10.392,-16.466C10.392,-10.208 6.583,-8.831 2.954,-8.428C3.539,-7.925 4.06,-6.931 4.06,-5.411C4.06,-3.234 4.04,-1.477 4.04,-0.943C4.04,-0.507 4.333,0 5.16,-0.159C11.628,-2.318 16.291,-8.419 16.291,-15.614C16.291,-24.611 8.997,-31.904 0,-31.904" style="fill:white;"/>
+    </g>
+</svg>
+</a></div></div></div>
+
+</div>
+
+
+<div class="container">
+  <div class="lesson-title">
+    <h1>WebGL2 Изменение размера Canvas.</h1>
+  </div>
+  <div class="lesson">
+    <div class="lesson-main">
+      <p>Вот что вам нужно знать, чтобы изменить размер canvas.</p>
+<p>У каждого canvas есть 2 размера. Размер его drawingbuffer. Это сколько пикселей в canvas.
+Второй размер - это размер, в котором отображается canvas. CSS определяет размер, в котором canvas
+отображается.</p>
+<p>Вы можете установить размер drawingbuffer canvas двумя способами. Один используя HTML</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;300&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>Другой используя JavaScript</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>JavaScript</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const canvas = document.querySelector(&quot;#c&quot;);
+canvas.width = 400;
+canvas.height = 300;
+</code></pre>
+<p>Что касается установки размера отображения canvas, если у вас нет CSS, который влияет на размер отображения canvas,
+размер отображения будет таким же, как размер его drawingbuffer. Поэтому в 2 примерах выше drawingbuffer canvas составляет 400x300,
+и его размер отображения также 400x300.</p>
+<p>Вот пример canvas, чей drawingbuffer составляет 10x15 пикселей, который отображается 400x300 пикселей на странице</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;canvas id=&quot;c&quot; width=&quot;10&quot; height=&quot;15&quot; style=&quot;width: 400px; height: 300px;&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>или, например, так</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-html">&lt;style&gt;
+#c {
+  width: 400px;
+  height: 300px;
+}
+&lt;/style&gt;
+&lt;canvas id=&quot;c&quot; width=&quot;10&quot; height=&quot;15&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<p>Если мы нарисуем одну пиксельную вращающуюся линию в этот canvas, мы увидим что-то вроде этого</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-10x15-canvas-400x300-css.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-10x15-canvas-400x300-css.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Почему это так размыто? Потому что браузер берет наш 10x15 пиксельный canvas и растягивает его до 400x300 пикселей, и
+обычно фильтрует его при растягивании.</p>
+<p>Итак, что мы делаем, если, например, хотим, чтобы canvas заполнил окно? Ну, сначала мы можем заставить
+браузер растянуть canvas, чтобы заполнить окно с помощью CSS. Пример</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      /*  */
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      /* делаем canvas заполняющим его контейнер */
+      #c {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Теперь нам просто нужно сделать drawingbuffer соответствующим любому размеру, до которого браузер растянул canvas.
+Это, к сожалению, сложная тема. Давайте рассмотрим некоторые различные методы</p>
+<h2 id="использование-clientwidth-и-clientheight">Использование <code class="notranslate" translate="no">clientWidth</code> и <code class="notranslate" translate="no">clientHeight</code></h2>
+<p>Это самый простой способ.
+<code class="notranslate" translate="no">clientWidth</code> и <code class="notranslate" translate="no">clientHeight</code> - это свойства, которые есть у каждого элемента в HTML, которые говорят нам
+размер элемента в CSS пикселях.</p>
+<blockquote>
+<p>Примечание: Client rect включает любой CSS padding, поэтому если вы используете <code class="notranslate" translate="no">clientWidth</code>
+и/или <code class="notranslate" translate="no">clientHeight</code>, лучше не ставить никакой padding на ваш canvas элемент.</p>
+</blockquote>
+<p>Используя JavaScript, мы можем проверить, какого размера этот элемент отображается, а затем настроить
+размер его drawingbuffer, чтобы соответствовать.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+  // Ищем размер, в котором браузер отображает canvas в CSS пикселях.
+  const displayWidth  = canvas.clientWidth;
+  const displayHeight = canvas.clientHeight;
+
+  // Проверяем, не является ли canvas того же размера.
+  const needResize = canvas.width  !== displayWidth ||
+                     canvas.height !== displayHeight;
+
+  if (needResize) {
+    // Делаем canvas того же размера
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>Давайте вызовем эту функцию прямо перед рендерингом,
+чтобы она всегда настраивала canvas до нашего желаемого размера прямо перед рисованием.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function drawScene() {
+   resizeCanvasToDisplaySize(gl.canvas);
+
+   ...
+</code></pre>
+<p>И вот это</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-canvas.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-canvas.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Эй, что-то не так? Почему линия не покрывает всю область?</p>
+<p>Причина в том, что когда мы изменяем размер canvas, нам также нужно вызвать <code class="notranslate" translate="no">gl.viewport</code>, чтобы установить viewport.
+<code class="notranslate" translate="no">gl.viewport</code> говорит WebGL, как конвертировать из пространства отсечения (-1 до +1) обратно в пиксели и где это делать
+внутри canvas. Когда вы впервые создаете WebGL контекст, WebGL установит viewport, чтобы соответствовать размеру
+canvas, но после этого вам нужно установить его. Если вы изменяете размер canvas,
+вам нужно сказать WebGL новую настройку viewport.</p>
+<p>Давайте изменим код, чтобы обработать это. Помимо этого, поскольку WebGL контекст имеет
+ссылку на canvas, давайте передадим это в resize.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">function drawScene() {
+   resizeCanvasToDisplaySize(gl.canvas);
+
++   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+   ...
+</code></pre>
+<p>Теперь это работает.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-canvas-viewport.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-canvas-viewport.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Откройте это в отдельном окне, измените размер окна, обратите внимание, что оно всегда заполняет окно.</p>
+<p>Я слышу, как вы спрашиваете, <em>почему WebGL не устанавливает viewport автоматически для нас,
+когда мы изменяем размер canvas?</em> Причина в том, что он не знает, как или почему
+вы используете viewport. Вы могли бы <a href="webgl-render-to-texture.html">рендерить в framebuffer</a>
+или делать что-то еще, что требует другого размера viewport. WebGL не имеет
+способа узнать ваше намерение, поэтому он не может автоматически установить viewport для вас.</p>
+<hr>
+<h2 id="обработка-devicepixelratio-и-масштабирования">Обработка <code class="notranslate" translate="no">devicePixelRatio</code> и масштабирования</h2>
+<p>Почему это не конец? Ну, здесь становится сложно.</p>
+<p>Первое, что нужно понять, это то, что большинство размеров в браузере в CSS пиксельных
+единицах. Это попытка сделать размеры независимыми от устройства. Так, например,
+в начале этой статьи мы установили размер отображения canvas в 400x300 CSS
+пикселей. В зависимости от того, есть ли у пользователя HD-DPI дисплей, или он увеличен или
+уменьшен, или имеет установленный уровень масштабирования ОС, сколько фактических пикселей это станет на
+мониторе, будет разным.</p>
+<p><code class="notranslate" translate="no">window.devicePixelRatio</code> скажет нам в общем соотношение фактических пикселей
+к CSS пикселям на вашем мониторе. Например, вот текущая настройка вашего браузера</p>
+<blockquote>
+<div>devicePixelRatio = <span data-diagram="dpr"></span></div>
+</blockquote>
+<p>Если вы на настольном компьютере или ноутбуке, попробуйте нажать <kbd>ctrl</kbd>+<kbd>+</kbd> и <kbd>ctrl</kbd>+<kbd>-</kbd>, чтобы увеличить и уменьшить (<kbd>⌘</kbd>+<kbd>+</kbd> и <kbd>⌘</kbd>+<kbd>-</kbd> на Mac). Вы должны увидеть, как число изменяется.</p>
+<p>Итак, если мы хотим, чтобы количество пикселей в canvas соответствовало количеству пикселей, фактически используемых для его отображения,
+казалось бы очевидным решением было бы умножить <code class="notranslate" translate="no">clientWidth</code> и <code class="notranslate" translate="no">clientHeight</code> на <code class="notranslate" translate="no">devicePixelRatio</code>, как это:</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+  // Ищем размер, в котором браузер отображает canvas в CSS пикселях.
+  const dpr = window.devicePixelRatio;
+  const displayWidth  = Math.round(canvas.clientWidth * dpr);
+  const displayHeight = Math.round(canvas.clientHeight * dpr);
+
+  // Проверяем, не является ли canvas того же размера.
+  const needResize = canvas.width  != displayWidth || 
+                     canvas.height != displayHeight;
+
+  if (needResize) {
+    // Делаем canvas того же размера
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>Нам нужно вызвать <code class="notranslate" translate="no">Math.round</code> (или <code class="notranslate" translate="no">Math.ceil</code>, или <code class="notranslate" translate="no">Math.floor</code> или <code class="notranslate" translate="no">| 0</code>), чтобы получить число
+к целому, потому что <code class="notranslate" translate="no">canvas.width</code> и <code class="notranslate" translate="no">canvas.height</code> всегда в целых числах, поэтому
+наше сравнение может не сработать, если <code class="notranslate" translate="no">devicePixelRatio</code> не является целым числом, что часто встречается, особенно
+если пользователь масштабирует.</p>
+<blockquote>
+<p>Примечание: Использовать ли <code class="notranslate" translate="no">Math.floor</code> или <code class="notranslate" translate="no">Math.ceil</code> или <code class="notranslate" translate="no">Math.round</code> не определено HTML
+спецификацией. Это зависит от браузера. 🙄</p>
+</blockquote>
+<p>В любом случае, это <strong>не</strong> будет работать на самом деле. Новая проблема в том, что при <code class="notranslate" translate="no">devicePixelRatio</code>, который не равен 1.0,
+CSS размер, который нужен canvas, чтобы заполнить данную область, может не быть целым значением,
+но <code class="notranslate" translate="no">clientWidth</code> и <code class="notranslate" translate="no">clientHeight</code> определены как целые числа. Допустим, окно
+999 фактических пикселей устройства в ширину, ваш devicePixelRatio = 2.0, и вы просите canvas размером 100%.
+Нет целого CSS размера * 2.0, который = 999.</p>
+<p>Следующее решение - использовать
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect"><code class="notranslate" translate="no">getBoundingClientRect()</code></a>.
+Он возвращает <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMRect"><code class="notranslate" translate="no">DOMRect</code></a>,
+который имеет <code class="notranslate" translate="no">width</code> и <code class="notranslate" translate="no">height</code>. Это тот же
+client rect, который представлен <code class="notranslate" translate="no">clientWidth</code> и <code class="notranslate" translate="no">clientHeight</code>, но он не обязан
+быть целым числом.</p>
+<p>Ниже фиолетовый <code class="notranslate" translate="no">&lt;canvas&gt;</code>, который установлен на <code class="notranslate" translate="no">width: 100%</code> его контейнера. Уменьшите масштаб несколько раз до 75% или 60%
+и вы можете увидеть, как его <code class="notranslate" translate="no">clientWidth</code> и его <code class="notranslate" translate="no">getBoundingClientRect().width</code> расходятся.</p>
+<blockquote>
+<div data-diagram="getBoundingClientRect"></div>
+</blockquote>
+<p>На моих машинах я получаю эти показания</p>
+<pre class="prettyprint notranslate" translate="no"><code class="notranslate" translate="no">Windows 10, уровень масштабирования 75%, Chrome
+clientWidth: 700
+getBoundingClientRect().width = 700.0000610351562
+
+MacOS, уровень масштабирования 90%, Chrome
+clientWidth: 700
+getBoundingClientRect().width = 700.0000610351562
+
+MacOS, уровень масштабирования -1, Safari (safari не показывает уровень масштабирования)
+clientWidth: 700
+getBoundingClientRect().width = 699.9999389648438
+
+Firefox, и Windows, и MacOS все уровни масштабирования
+clientWidth: 700
+getBoundingClientRect().width = 700
+</code></pre>
+<p>Примечание: Firefox показал 700 в этой конкретной настройке, но при достаточном количестве различных тестов я
+видел, что он дает нецелый результат из <code class="notranslate" translate="no">getBoundingClientRect</code>, например, сделайте окно
+тонким, чтобы 100% canvas был меньше 700, и вы можете получить нецелый результат
+в Firefox.</p>
+<p>Итак, учитывая это, мы могли бы попробовать использовать <code class="notranslate" translate="no">getBoundingClientRect</code>.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+  // Ищем размер, в котором браузер отображает canvas в CSS пикселях.
+  const dpr = window.devicePixelRatio;
+  const {width, height} = canvas.getBoundingClientRect();
+  const displayWidth  = Math.round(width * dpr);
+  const displayHeight = Math.round(height * dpr);
+
+  // Проверяем, не является ли canvas того же размера.
+  const needResize = canvas.width  != displayWidth || 
+                     canvas.height != displayHeight;
+
+  if (needResize) {
+    // Делаем canvas того же размера
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>Итак, мы закончили? К сожалению, нет. Оказывается, что <code class="notranslate" translate="no">canvas.getBoundingClientRect()</code> может
+не всегда возвращать точно правильный размер. Причина сложная, но она связана с
+тем, как браузер решает рисовать вещи. Некоторые части решаются на уровне HTML,
+а некоторые части решаются позже на уровне “композитора” (часть, которая фактически рисует).
+<code class="notranslate" translate="no">getBoundingClientRect()</code> происходит на уровне HTML, но определенные вещи происходят после этого,
+что может повлиять на то, какого размера canvas фактически рисуется.</p>
+<p>Я думаю, пример в том, что HTML часть работает в абстрактном, а композитор
+работает в конкретном. Итак, допустим, у вас есть окно шириной 999 пикселей устройства
+и devicePixelRatio 2.0. Вы делаете два элемента рядом, которые
+<code class="notranslate" translate="no">width: 50%</code>. Итак, HTML вычисляет, что каждый должен быть 499.5 пикселей устройства. Но когда
+фактически приходит время рисовать, композитор не может нарисовать 499.5 пикселей, поэтому один
+элемент получает 499, а другой получает 500. Какой получает или теряет пиксель,
+не определено никакими спецификациями.</p>
+<p>Решение, которое придумали производители браузеров, - использовать
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver"><code class="notranslate" translate="no">ResizeObserver</code> API</a>
+и предоставить фактический используемый размер через свойство <code class="notranslate" translate="no">devicePixelContextBoxSize</code>
+записей, которые он предоставляет.
+Он возвращает фактическое количество пикселей устройства, которые были использованы. Обратите внимание, что это называется
+<code class="notranslate" translate="no">ContentBox</code>, а не <code class="notranslate" translate="no">ClientBox</code>, что означает, что это фактическая часть
+canvas элемента, показывающая <em>содержимое</em> canvas, поэтому она не включает padding, как
+<code class="notranslate" translate="no">clientWidth</code>, <code class="notranslate" translate="no">clientHeight</code> и <code class="notranslate" translate="no">getBoundingClientRect</code>, приятное преимущество.</p>
+<p>Это возвращается таким образом, потому что результат асинхронный. “Композитор”, упомянутый
+выше, работает асинхронно от страницы. Он может выяснить размер, который он фактически собирается использовать, а затем отправить вам этот размер <em>вне полосы</em>.</p>
+<p>К сожалению, хотя <code class="notranslate" translate="no">ResizeObserver</code> доступен во всех современных браузерах,
+<code class="notranslate" translate="no">devicePixelContentBoxSize</code> пока доступен только в Chrome/Edge. Вот как
+его использовать.</p>
+<p>Мы создаем <code class="notranslate" translate="no">ResizeObserver</code> и передаем ему функцию для вызова в любое время, когда любой элемент,
+который мы наблюдаем, изменяет размер. В нашем случае это наш canvas.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const resizeObserver = new ResizeObserver(onResize);
+resizeObserver.observe(canvas, {box: 'content-box'});
+</code></pre>
+<p>Код выше создает <code class="notranslate" translate="no">ResizeObserver</code>, который будет вызывать функцию <code class="notranslate" translate="no">onResize</code>
+(ниже), когда элемент, который мы наблюдаем, изменяет размер. Мы говорим ему <code class="notranslate" translate="no">observe</code> наш
+canvas. Мы говорим ему наблюдать, когда <code class="notranslate" translate="no">content-box</code> изменяет размер. Это
+важно и немного запутанно. Мы могли бы попросить его сказать нам, когда
+<code class="notranslate" translate="no">device-pixel-content-box</code> изменяет размер, но давайте представим, что у нас есть canvas, который
+имеет какой-то процентный размер окна, как обычные 100% нашего примера с линией
+выше. В этом случае наш canvas всегда будет иметь то же количество пикселей устройства
+независимо от уровня масштабирования. Окно не изменило размер, когда мы масштабируем, поэтому все еще
+то же количество пикселей устройства. С другой стороны, <code class="notranslate" translate="no">content-box</code> будет
+изменяться, когда мы масштабируем, потому что он измеряется в CSS пикселях, и поэтому, когда мы масштабируем, больше или
+меньше CSS пикселей помещается в количество пикселей устройства.</p>
+<p>Если нас не волнует уровень масштабирования, то мы могли бы просто наблюдать <code class="notranslate" translate="no">device-pixel-content-box</code>.
+Это выбросит ошибку, если это не поддерживается, поэтому мы сделали бы что-то вроде этого</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">const resizeObserver = new ResizeObserver(onResize);
+try {
+  // вызывать нас только если количество пикселей устройства изменилось
+  resizeObserver.observe(canvas, {box: 'device-pixel-content-box'});
+} catch (ex) {
+  // device-pixel-content-box не поддерживается, поэтому откатываемся к этому
+  resizeObserver.observe(canvas, {box: 'content-box'});
+}
+</code></pre>
+<p>Функция <code class="notranslate" translate="no">onResize</code> будет вызвана с массивом <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry"><code class="notranslate" translate="no">ResizeObserverEntry</code></a>. Один для каждой вещи,
+которая изменила размер. Мы запишем размер в карту, чтобы мы могли обработать больше чем
+один элемент.</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">// инициализируем с размером canvas по умолчанию
+const canvasToDisplaySizeMap = new Map([[canvas, [300, 150]]]);
+
+function onResize(entries) {
+  for (const entry of entries) {
+    let width;
+    let height;
+    let dpr = window.devicePixelRatio;
+    if (entry.devicePixelContentBoxSize) {
+      // ПРИМЕЧАНИЕ: Только этот путь дает правильный ответ
+      // Другие пути - несовершенные откаты
+      // для браузеров, которые не предоставляют никакого способа сделать это
+      width = entry.devicePixelContentBoxSize[0].inlineSize;
+      height = entry.devicePixelContentBoxSize[0].blockSize;
+      dpr = 1; // это уже в width и height
+    } else if (entry.contentBoxSize) {
+      if (entry.contentBoxSize[0]) {
+        width = entry.contentBoxSize[0].inlineSize;
+        height = entry.contentBoxSize[0].blockSize;
+      } else {
+        width = entry.contentBoxSize.inlineSize;
+        height = entry.contentBoxSize.blockSize;
+      }
+    } else {
+      width = entry.contentRect.width;
+      height = entry.contentRect.height;
+    }
+    const displayWidth = Math.round(width * dpr);
+    const displayHeight = Math.round(height * dpr);
+    canvasToDisplaySizeMap.set(entry.target, [displayWidth, displayHeight]);
+  }
+}
+</code></pre>
+<p>Это своего рода беспорядок. Вы можете видеть, что API отправил по крайней мере 3 разные версии
+перед поддержкой <code class="notranslate" translate="no">devicePixelContentBoxSize</code> 😂</p>
+<p>Теперь мы изменим нашу функцию resize, чтобы использовать эти данные</p>
+<pre class="prettyprint notranslate" translate="no"><code class="lang-js">function resizeCanvasToDisplaySize(canvas) {
+  // Получаем размер, в котором браузер отображает canvas в пикселях устройства.
+ const [displayWidth, displayHeight] = canvasToDisplaySizeMap.get(canvas);
+
+  // Проверяем, не является ли canvas того же размера.
+  const needResize = canvas.width  != displayWidth || 
+                     canvas.height != displayHeight;
+
+  if (needResize) {
+    // Делаем canvas того же размера
+    canvas.width  = displayWidth;
+    canvas.height = displayHeight;
+  }
+
+  return needResize;
+}
+</code></pre>
+<p>Вот пример использования этого кода</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-canvas-hd-dpi.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-canvas-hd-dpi.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Может быть трудно увидеть какую-либо разницу. Если у вас есть HD-DPI дисплей,
+как ваш смартфон или все Mac с 2019 года, или, возможно, 4k монитор, то эта
+линия должна быть тоньше, чем линия предыдущего примера.</p>
+<p>В противном случае, если вы увеличиваете масштаб (я предлагаю открыть пример в новом окне), когда вы увеличиваете масштаб,
+линия должна оставаться того же разрешения, тогда как если вы увеличиваете масштаб в предыдущем примере,
+линия станет толще и с более низким разрешением, поскольку она не настраивается на <code class="notranslate" translate="no">devicePixelRatio</code>.</p>
+<p>Просто как тест, вот все 3 метода выше, используя простой canvas 2d.
+Чтобы было просто, он не использует WebGL. Вместо этого он использует Canvas 2D и делает 2 паттерна, 2x2 пиксельный вертикальный черно-белый паттерн и 2x2 пиксельный горизонтальный черно-белый
+паттерн. Он рисует горизонтальный паттерн ▤ слева и вертикальный паттерн ▥
+справа.</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-the-canvas-comparison.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-the-canvas-comparison.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Измените размер этого окна, или лучше, откройте его в новом окне и увеличивайте и уменьшайте масштаб, используя
+клавиши, упомянутые выше. На разных уровнях масштабирования измените размер окна и обратите внимание,
+что только нижний работает во всех случаях (в Chrome/Edge). Обратите внимание, что чем выше
+<code class="notranslate" translate="no">devicePixelRatio</code> вашего устройства, тем труднее может быть увидеть проблемы. Что вы
+должны увидеть - это неизменяющийся паттерн слева и справа. Если вы видите резкие
+паттерны или вы видите различающуюся темноту, как градиент, то это не работает.
+Поскольку это будет работать только в Chrome/Edge, вам нужно попробовать это там, чтобы увидеть, как это работает.</p>
+<p>Также обратите внимание, что некоторые ОС (MacOS) предоставляют опцию масштабирования на уровне ОС, которая в основном
+скрыта от приложений. В этом случае вы увидите легкий паттерн в нижнем примере
+(предполагая, что вы в Chrome/Edge), но это будет регулярный паттерн.</p>
+<p>Это поднимает проблему, что нет хорошего решения в других браузерах, но нужен ли вам
+настоящее решение? Большинство WebGL приложений делают что-то вроде рисования некоторых вещей в 3D
+с текстурами и/или освещением на них. Как таковые, часто не заметно, использовать ли
+верхнее решение, где мы игнорировали <code class="notranslate" translate="no">devicePixelRatio</code>, или использовать <code class="notranslate" translate="no">clientWidth</code>, <code class="notranslate" translate="no">clientHeight</code>
+или <code class="notranslate" translate="no">getBoundingClientRect()</code> * <code class="notranslate" translate="no">devicePixelRatio</code> и не беспокоиться об этом дальше.</p>
+<p>Кроме того, слепое использование <code class="notranslate" translate="no">devicePixelRatio</code> может действительно замедлить вашу производительность.
+На iPhoneX или iPhone11 <code class="notranslate" translate="no">window.devicePixelRatio</code> равен <code class="notranslate" translate="no">3</code>, что
+означает, что вы будете рисовать в 9 раз больше пикселей. На Samsung Galaxy S8 это значение <code class="notranslate" translate="no">4</code>, что означает, что вы будете рисовать
+в 16 раз больше пикселей. Это может действительно замедлить вашу программу. Фактически, это обычная оптимизация в играх - фактически рендерить
+меньше пикселей, чем отображается, и позволить GPU масштабировать их вверх. Это действительно зависит от ваших потребностей. Если вы рисуете
+график для печати, вы можете захотеть поддержать HD-DPI. Если вы делаете игру, вы можете не хотеть или можете захотеть дать
+пользователю возможность включить или выключить поддержку, если их система не достаточно быстра, чтобы рисовать так много пикселей.</p>
+<p>Еще одна оговорка заключается в том, что по крайней мере в январе 2021 года <code class="notranslate" translate="no">round(getBoundingClientRect * devicePixelRatio)</code> работает во всех современных браузерах <strong>ЕСЛИ И ТОЛЬКО ЕСЛИ</strong> canvas имеет полный
+размер окна, как в примере с линией выше. Вот пример использования паттернов</p>
+<p><div class="webgl_example_container">
+  <iframe class="webgl_example" style=" " src="/webgl/resources/editor.html?url=/webgl/lessons/..%2Fwebgl-resize-the-canvas-comparison-fullwindow.html"></iframe>
+  <a class="webgl_center" href="/webgl/lessons/../webgl-resize-the-canvas-comparison-fullwindow.html" target="_blank">Нажмите, чтобы открыть в новом окне</a>
+</div>
+
+</p>
+<p>Вы заметите, что если вы масштабируете и изменяете размер <em>этой страницы</em>, это не сработает с <code class="notranslate" translate="no">getBoundingClientRect</code>.
+Это потому, что canvas не является полным окном, он находится в iframe. Откройте пример
+в отдельном окне, и это будет работать.</p>
+<p>Какое решение вы используете, зависит от вас. Для меня 99% времени я не использую
+<code class="notranslate" translate="no">devicePixelRatio</code>. Это делает мои страницы медленными, и кроме нескольких графических профессионалов большинство
+людей не заметят разницы. На этом сайте есть несколько диаграмм, где это используется, но большинство примеров не используют.</p>
+<p>Если вы посмотрите на многие WebGL программы, они обрабатывают изменение размера или установку размера canvas многими различными способами.
+Я думаю, что спорно, что лучший способ - позволить браузеру выбрать размер для отображения canvas с помощью CSS, а затем посмотреть, какой размер он выбрал, и настроить
+количество пикселей в canvas в ответ.
+Если вам любопытно, <a href="webgl-anti-patterns.html">вот некоторые из причин</a>, по которым я думаю, что описанный выше способ является предпочтительным.</p>
+<!-- просто чтобы успокоить сборку, что эта ссылка раньше существовала
+     и все еще существует в старых переводах -->
+<p><a href="webgl-animation.html"></a></p>
+<script type="module" src="../resources/webgl-resizing-the-canvas.module.js"></script> 
+    </div>
+    <div class="lesson-sidebar">
+        <select class="language">
+    <option value="/webgl/lessons/webgl-resizing-the-canvas.html" >English</a>
+    <option value="/webgl/lessons/de/webgl-resizing-the-canvas.html" >Deutsch</a>
+    <option value="/webgl/lessons/ja/webgl-resizing-the-canvas.html" >日本語</a>
+    <option value="/webgl/lessons/ko/webgl-resizing-the-canvas.html" >한국어</a>
+    <option value="/webgl/lessons/pt-br/webgl-resizing-the-canvas.html" >Português Brasileiro</a>
+    <option value="/webgl/lessons/ru/webgl-resizing-the-canvas.html" selected>Русский</a>
+    <option value="/webgl/lessons/zh_cn/webgl-resizing-the-canvas.html" >简体中文</a>
+</select>
+
+
+        <div id="toc">
+          <ul>  <li>Основы</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-getting-webgl2.html">Как использовать WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl-fundamentals.html">Основы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-how-it-works.html">Как это работает</a></li>
+<li><a href="/webgl/lessons/ru/webgl-shaders-and-glsl.html">Шейдеры и GLSL</a></li>
+<li><a href="/webgl/lessons/resources/webgl-state-diagram.html">WebGL2 Диаграмма состояния</a></li>
+        </ul>
+  <li>WebGL2 vs WebGL1</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl2-whats-new.html">Что нового в WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl1-to-webgl2.html">Переход с WebGL1 на WebGL2</a></li>
+<li><a href="/webgl/lessons/ru/webgl1-to-webgl2-fundamentals.html">Отличия от WebGLFundamentals.org до WebGL2Fundamentals.org</a></li>
+        </ul>
+  <li>Обработка изображений</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-image-processing.html">Обработка изображений</a></li>
+<li><a href="/webgl/lessons/ru/webgl-image-processing-continued.html">Продвинутая обработка изображений</a></li>
+        </ul>
+  <li>2D трансформации, повороты, масштабирование и матричные операции</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-2d-translation.html">2D Трансляция</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-rotation.html">2D Вращение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-scale.html">2D Масштабирование</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-matrices.html">2D Матрицы</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-orthographic.html">Ортографическая 3D</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-perspective.html">3D Перспектива</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-camera.html">3D - Камеры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-matrix-naming.html">3D - Именование матриц</a></li>
+        </ul>
+  <li>Освещение</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-lighting-directional.html">Направленное освещение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-lighting-point.html">Точечное освещение</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-lighting-spot.html">Прожекторное освещение</a></li>
+        </ul>
+  <li>Организация и рефакторинг</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-less-code-more-fun.html">Меньше кода, больше удовольствия</a></li>
+<li><a href="/webgl/lessons/ru/webgl-drawing-multiple-things.html">Рисование множественных объектов</a></li>
+<li><a href="/webgl/lessons/ru/webgl-scene-graph.html">Графы сцен</a></li>
+        </ul>
+  <li>Геометрия</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-geometry-lathe.html">3D Геометрия - Токарная обработка</a></li>
+<li><a href="/webgl/lessons/ru/webgl-load-obj.html">Загрузка .obj файлов</a></li>
+<li><a href="/webgl/lessons/ru/webgl-load-obj-w-mtl.html">Загрузка .obj с .mtl файлами</a></li>
+        </ul>
+  <li>Текстуры</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-3d-textures.html">Текстуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-data-textures.html">Data Textures</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2-textures.html">Использование 2 или более текстур</a></li>
+<li><a href="/webgl/lessons/ru/webgl-cors-permission.html">Cross Origin Images</a></li>
+<li><a href="/webgl/lessons/ru/webgl-3d-perspective-correct-texturemapping.html">Перспективно-корректное наложение текстур</a></li>
+<li><a href="/webgl/lessons/ru/webgl-planar-projection-mapping.html">Планарное и перспективное проекционное отображение</a></li>
+        </ul>
+  <li>Рендеринг в текстуру</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-render-to-texture.html">Рендеринг в текстуру</a></li>
+        </ul>
+  <li>Тени</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-shadows.html">Тени</a></li>
+        </ul>
+  <li>Техники</li>
+        <ul>
+            <li>2D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-2d-drawimage.html">2D - DrawImage</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-matrix-stack.html">2D - Стек Матриц</a></li>
+<li><a href="/webgl/lessons/ru/webgl-sprites.html">Спрайты</a></li>
+        </ul>
+  <li>3D</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-cube-maps.html">Кубические карты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-environment-maps.html">Карты окружения</a></li>
+<li><a href="/webgl/lessons/ru/webgl-skybox.html">Скайбоксы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-skinning.html">Скининг</a></li>
+<li><a href="/webgl/lessons/ru/webgl-fog.html">Fog</a></li>
+<li><a href="/webgl/lessons/ru/webgl-picking.html">Выбор объектов (клик по объектам)</a></li>
+        </ul>
+  <li>Текст</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-text-html.html">Текст - HTML</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-canvas2d.html">Текст - Canvas 2D</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-texture.html">Текст - Использование текстуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-text-glyphs.html">Текст - Использование текстуры глифов</a></li>
+        </ul>
+  <li>GPGPU</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-gpgpu.html">GPGPU</a></li>
+        </ul>
+        </ul>
+  <li>Советы</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-smallest-programs.html">Самые маленькие программы</a></li>
+<li><a href="/webgl/lessons/ru/webgl-drawing-without-data.html">Рисование без данных</a></li>
+<li><a href="/webgl/lessons/ru/webgl-shadertoy.html">Shadertoy</a></li>
+<li><a href="/webgl/lessons/ru/webgl-pulling-vertices.html">Вытягивание вершин</a></li>
+        </ul>
+  <li>Оптимизация</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-indexed-vertices.html">Индексированные вершины (gl.drawElements)</a></li>
+<li><a href="/webgl/lessons/ru/webgl-instanced-drawing.html">Инстансинг (Instanced Drawing)</a></li>
+        </ul>
+  <li>Разное</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-setup-and-installation.html">Настройка и установка</a></li>
+<li><a href="/webgl/lessons/ru/webgl-boilerplate.html">Boilerplate</a></li>
+<li><a href="/webgl/lessons/ru/webgl-resizing-the-canvas.html">Изменение размера Canvas</a></li>
+<li><a href="/webgl/lessons/ru/webgl-animation.html">Анимация</a></li>
+<li><a href="/webgl/lessons/ru/webgl-points-lines-triangles.html">Точки, линии и треугольники</a></li>
+<li><a href="/webgl/lessons/ru/webgl-multiple-views.html">Множественные виды, множественные canvas</a></li>
+<li><a href="/webgl/lessons/ru/webgl-visualizing-the-camera.html">Визуализация камеры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-and-alpha.html">WebGL2 и альфа-канал</a></li>
+<li><a href="/webgl/lessons/ru/webgl-2d-vs-3d-library.html">2D против 3D библиотек</a></li>
+<li><a href="/webgl/lessons/ru/webgl-anti-patterns.html">Анти-паттерны</a></li>
+<li><a href="/webgl/lessons/ru/webgl-matrix-vs-math.html">WebGL2 Матрицы против математических матриц</a></li>
+<li><a href="/webgl/lessons/ru/webgl-precision-issues.html">Проблемы точности</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#screenshot">Скриншот канваса</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#preservedrawingbuffer">Как не очищать канвас</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#tabindex">Получение ввода с клавиатуры</a></li>
+<li><a href="/webgl/lessons/ru/webgl-tips.html#html-background">Использование WebGL2 как фона в HTML</a></li>
+<li><a href="/webgl/lessons/ru/webgl-cross-platform-issues.html">Cross Platform Issues</a></li>
+<li><a href="/webgl/lessons/ru/webgl-qna.html">Questions and Answers</a></li>
+        </ul>
+  <li>Справочник</li>
+        <ul>
+          <li><a href="/webgl/lessons/ru/webgl-attributes.html">Атрибуты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-texture-units.html">Текстурные юниты</a></li>
+<li><a href="/webgl/lessons/ru/webgl-framebuffers.html">Framebuffers</a></li>
+<li><a href="/webgl/lessons/ru/webgl-readpixels.html">readPixels</a></li>
+<li><a href="/webgl/lessons/ru/webgl-references.html">Ссылки</a></li>
+        </ul></ul>
+<ul>
+  <li><a href="/docs/">API документация</a></li>
+  <li><a href="https://twgljs.org">TWGL, легковесная библиотека-помощник для WebGL</a></li>
+  <li><a href="https://github.com/gfxfundamentals/webgl2-fundamentals">GitHub</a></li>
+</ul>
+        </div>
+    </div>
+    <div class="lesson-comments">
+        
+<div>Есть предложения или замечания? <a href="https://github.com/gfxfundamentals/webgl2-fundamentals/issues">Создайте issue на GitHub</a>.</div>
+  
+
+        <div id="disqus_thread"></div>
+        <script>
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'webgl2fundamentals'; // required: replace example with your forum shortname
+            var disqus_identifier = 'WebGL2 Изменение размера Canvas.';
+            var disqus_title = 'WebGL2 Изменение размера Canvas.';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                if (window.location.hostname.indexOf("webgl2fundamentals.org") < 0) {
+                    return;
+                }
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+const settings = {
+  contribTemplate: "Спасибо <a href=\"${html_url}\"><img src=\"${avatar_url}\"> ${login}</a><br>за <a href=\"https://github.com/${owner}/${repo}/commits?author=${login}\">${contributions} вкладов</a>",
+  owner: "gfxfundamentals",
+  repo: "webgl2-fundamentals",
+};
+</script>
+<script src="/contributors.js"></script>
+<script src="/3rdparty/jquery-1.11.2.min.js"></script>
+<script src="/webgl/lessons/resources/prettify.js"></script>
+<script src="/webgl/lessons/resources/lesson.js" type="module"></script>
+<script>
+</script>
+
+
+</html>
+
+
+

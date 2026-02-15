@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet</title>
+    
+    <style>
+        @import url("https://webgl2fundamentals.org/webgl/resources/webgl-tutorials.css");
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: bisque;
+      }
+       #canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        border: 3px solid red;
+        background: bisque;
+        margin: 20px auto;
+      }
+      a {
+        color: lightblue;
+      }
+      #b {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 20%;
+        padding: 1em;
+        text-align: center;
+        z-index: 2;
+        background: rgba(0, 0, 0, 0.8);
+      }
+      .controls {
+          text-align: right;
+      }
+      .controls div {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+      }
+      .controls input {
+          flex: 1 1 auto;
+      }
+      .controls label {
+          width: 10em;
+          flex: 0 0 auto;
+          padding-right: 0.5em;
+      }
+    </style>
+
+</head>
+<body>
+
+    <div id="controls"></div>
+
+    <!-- <div id="b">
+        <div class="controls">
+            <div>
+                <label for="numTrees">MaxTrees</label>
+                <input type="range" min="0" max="400" id="numTrees"></div>
+            <div>
+                <label for="numRocks">maxRocks</label>
+                <input type="range" min="0" max="400" id="numRocks"></div>
+            <div>
+                <label for="sizeTree">Tree Size</label>
+                <input type="range" min="0.0" max="20.0" id="sizeTree"></div>
+            <div>
+                <label for="sizeRock">Rock Size</label>
+                <input type="range" min="0.0" max="20.0" id="sizeRock"></div>
+            <div>
+                <label for="radius">Radius</label>
+                <input type="range" min="0" max="400" id="radius"></div>
+            <div>
+                <label for="detail">Detail</label>
+                <input type="range" min="0" max="5" id="detail"></div>
+            
+        </div>
+    </div> -->
+    
+</body>
+<canvas id="canvas"></canvas>
+<script src="../dist/7.x/twgl-full.min.js"></script>
+<script src="../3rdparty/chroma.min.js"></script>
+<script src="../../WebGl2Fundamentals/webgl/resources/m4.js"></script>
+<script src="../../WebGl2Fundamentals/webgl/resources/webgl-lessons-ui.js"></script>
+<script src="./js/Planet.js"></script>
+
+</html>

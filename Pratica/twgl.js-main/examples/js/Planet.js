@@ -15,7 +15,7 @@ uniform mat4 u_world;
 uniform mat4 u_worldViewProjection;
 uniform mat4 u_worldInverseTranspose;
 
-out vec3  v_normal;
+flat out vec3  v_normal;
 out vec3  v_surfaceToLight;
 out float v_elevation;
 
@@ -35,7 +35,7 @@ var fs = `#version 300 es
 
 precision highp float;
 
-in vec3 v_normal;
+flat in vec3 v_normal;
 in vec3 v_surfaceToLight;
 in float v_elevation;
 

@@ -5,6 +5,8 @@ const planetParams = {
     rotationSpeed: 0.2,
     seed: Math.random() * 10000,
     numTrees: 400,
+    treeSize: 1,
+    moveSun: false,
 };
 
 const programOptions = {
@@ -130,6 +132,7 @@ async function main() {
     then = now;
 
   // ========== Rotação do Sol ===========
+  if (planetParams.moveSun){
     var orbitRadius = 100.0;
     var sunSpeed    = 0.5;
     
@@ -138,6 +141,7 @@ async function main() {
       Math.sin(now * 0.1) * 20.0,
       Math.cos(now * sunSpeed) * orbitRadius
     ];
+  }
 
 
 // ===================== Desenhando o Planeta ====================
@@ -203,7 +207,7 @@ async function main() {
       var angle = Math.acos(dotProduct);
 
 
-      var scale = planetParams.radius * 0.025;
+      var scale = planetParams.radius * 0.025 * planetParams.treeSize;
       var scaleMatrix = m4.scaling(scale, scale, scale);
     
       var rotationMatrix = m4.axisRotation(axis, angle);

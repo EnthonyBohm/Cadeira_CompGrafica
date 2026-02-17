@@ -1,19 +1,19 @@
 #version 300 es
 in vec4 a_position;
+in vec2 a_texcoord;
 in vec3 a_normal;
 in vec4 a_color;
-in vec2 a_texcoord;
 
-uniform mat4 u_world;
-uniform mat4 u_worldViewProjection;
-uniform mat4 u_worldInverseTranspose;
-uniform vec3 u_lightWorldPosition;
-uniform float u_time;
+uniform mat4    u_world;
+uniform mat4    u_worldViewProjection;
+uniform mat4    u_worldInverseTranspose;
+uniform float   u_time;
+uniform mat4    u_textureMatrix;
 
-out vec3 v_normal;
-out vec3 v_surfaceToLight;
-out vec4 v_color;
 out vec2 v_texcoord;
+out vec4 v_projectedTexcoord;
+out vec3 v_normal;
+out vec4 v_color;
 
 void main() {
     vec4    position    = a_position;
@@ -27,15 +27,13 @@ void main() {
         position.z += displacement;        
     }
 
-
-
     gl_Position = u_worldViewProjection * position;
-    v_normal = mat3(u_worldInverseTranspose) * a_normal;
-    v_color = a_color;
-    vec3 surfaceWorldPosition = (u_world * a_position).xyz;
 
-    v_surfaceToLight = u_lightWorldPosition - surfaceWorldPosition;
-    
-    v_texcoord = a_texcoord;
+
+
+    v_normal            =   mat3(u_worldInverseTranspose) * a_normal;
+    v_projectedTexcoord =   u_textureMatrix * (u_world * a_position);
+    v_texcoord          =   a_texcoord;
+    v_color             =   a_color;
 
 }

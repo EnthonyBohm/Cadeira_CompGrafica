@@ -2,23 +2,40 @@
 
 precision highp float;
 
-flat in vec3 v_normal;
-in vec3 v_surfaceToLight;
-in float v_elevation;
+in      float   v_elevation;
+flat in vec3    v_normal;
+in      vec2    v_texcoord;
+in      vec4    v_projectedTexcoord;
 
-uniform vec4 u_color;
-uniform vec3 u_reverseLightDirection;
+uniform vec4        u_colorMult;
+uniform sampler2D   u_texture;
+uniform sampler2D   u_projectedTexture;
+uniform float       u_bias;
+uniform vec3        u_reverseLightDirection;
 
 out vec4 outColor;
 
 void main() {
   vec3 normal = normalize(v_normal);
-  // Ajuste a direção da luz - use valores mais razoáveis
-  vec3 surfaceToLightDirection = normalize(v_surfaceToLight);
 
-  float light       = max ( dot (normal, surfaceToLightDirection), 0.3);
+float diffuse = max(dot(normal, u_reverseLightDirection), 0.0);  float ambient = 0.2; // Luz constante
+  float totalLight = diffuse + ambient;
 
-  
+  float bias = -0.001;
+  vec3 projectedTexcoord = v_projectedTexcoord.xyz / v_projectedTexcoord.w;
+  float currentDepth = projectedTexcoord.z + bias;
+
+  bool inRange = 
+    projectedTexcoord.x >= 0.0 &&
+    projectedTexcoord.x <= 1.0 &&
+    projectedTexcoord.y >= 0.0 &&
+    projectedTexcoord.y <= 1.0;
+
+  float projectedDepth = texture(u_projectedTexture, projectedTexcoord.xy).r;
+  float shadowLight    = 1.0 ;
+  if (inRange && projectedDepth <= currentDepth){
+      shadowLight = 0.0;
+  }
 
   // Cores base
   vec3 deepWaterColor = vec3(0.05, 0.15, 0.3);
@@ -38,5 +55,12 @@ void main() {
   else if (v_elevation < 0.22){ finalColor = grassColor; }
   else { finalColor = mountainColor;}
 
-  outColor = vec4(finalColor * light, 1) ;
+  vec4 texColor = texture (u_texture, v_texcoord);
+
+  outColor = vec4(
+    finalColor * totalLight * shadowLight ,
+    texColor.a
+  ) ;
+
+
 }

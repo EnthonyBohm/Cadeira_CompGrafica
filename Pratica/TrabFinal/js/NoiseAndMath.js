@@ -136,3 +136,11 @@ function initNoise() {
   }
 }
 
+function normalize (positions) {
+  const len = Math.sqrt(positions[0] ** 2 + positions[1] ** 2 +positions[2] ** 2 );
+  return [
+    positions[0] / len,
+    positions[1] / len,
+    positions[2] / len,
+  ];
+}

@@ -90,6 +90,8 @@ void main() {
 const colorFS = `#version 300 es
 precision highp float;
 
+out vec4 outColor;
+
 void main() {
 }
 `;
@@ -230,6 +232,8 @@ function main() {
       depthTexture,         // texture
       0);                   // mip level
 
+
+
   function degToRad(d) {
     return d * Math.PI / 180;
   }
@@ -243,8 +247,8 @@ function main() {
     targetX: 3.5,
     targetY: 0,
     targetZ: 3.5,
-    projWidth: 10,
-    projHeight: 10,
+    projWidth: 1,
+    projHeight: 1,
     perspective: false,
     fieldOfView: 120,
     bias: -0.006,

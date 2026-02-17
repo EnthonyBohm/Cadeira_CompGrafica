@@ -23,13 +23,7 @@ function setupSliders (gl, shaders) {
     createSlider({min:0, max:300, step:1, value:20, id:"maxArvores"})
   );
   container.appendChild (
-    createSlider({min:0, max:300, step:1, value:20, id:"maxPedras"})
-  );
-  container.appendChild (
     createSlider({min:0, max:300, step:1, value:20, id:"tamArvores"})
-  );
-  container.appendChild (
-    createSlider({min:0, max:300, step:1, value:20, id:"tamPedras"})
   );
   container.appendChild (
     createSlider({min:0.5, max:10, step:0.5, value:planetParams.radius, id:"radius"})
@@ -38,7 +32,7 @@ function setupSliders (gl, shaders) {
     createSlider({min:1, max:7, step:1, value:planetParams.subdivisions, id:"subdivisions"})
   );
   container.appendChild (
-    createSlider({min:0.00, max:4, step:0.05, value:planetParams.roughness, id:"roughness"})
+    createSlider({min:0.00, max:6, step:0.05, value:planetParams.roughness, id:"roughness"})
   );
   container.appendChild (
     createUpdateButton()

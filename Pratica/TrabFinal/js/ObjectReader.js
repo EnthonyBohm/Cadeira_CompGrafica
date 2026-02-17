@@ -34,22 +34,22 @@ function parseOBJ (text) {
 
     function setGeometry() {
         if (!geometry) {
-            const position  = [];
-            const texcoord  = [];
-            const normal    = [];
+            const a_position  = [];
+            const a_texcoord  = [];
+            const a_normal    = [];
             webglVertexData = [
-                position,
-                texcoord,
-                normal  ,
+                a_position,
+                a_texcoord,
+                a_normal  ,
             ];
             geometry = {
                 object,
                 groups,
                 material,
                 data: {
-                    position,
-                    texcoord,
-                    normal,
+                    a_position,
+                    a_texcoord,
+                    a_normal,
                 },
             };
             geometries.push(geometry);
@@ -191,10 +191,9 @@ function parseMTL(text) {
 
 // ---------------- Objects Structures --------------
 
-async function createObjectData (gl, vs, fs) {
-    const meshProgramInfo = twgl.createProgramInfo (gl, [vs,fs]);
+async function createObjectData (gl, meshProgramInfo) {
 
-    const objHref   = '../../ForestModels/Assets/obj/Tree_1_A_Color1.obj';
+    const objHref   = '../../ForestModels/Assets/obj/Tree_4_A_Color1.obj';
     const response  = await fetch(objHref);
     const text      = await response.text();
     const obj       = parseOBJ(text);

@@ -22,37 +22,7 @@ function createPlanet (radius, subdivisions, roughness, seed) {
     var nz = normals[i + 2];
 
     if(roughness != 0){
-      var frequency = 3.0
-      var noise = simpleNoise(nx * frequency, ny * frequency, nz * frequency, seed);
-
-      var amplitude       = 1.0;
-      var totalAmplitude  = 1.0;
-
-      amplitude *= 0.5;
-      totalAmplitude += amplitude
-      noise += amplitude * simpleNoise(
-        nx * frequency * 2,
-        ny * frequency * 2,
-        nz * frequency * 2,
-        seed + 1000
-      );
-
-      amplitude *= 0.5;
-      totalAmplitude += amplitude;
-      noise += amplitude * simpleNoise (
-        nx * frequency * 4,
-        ny * frequency * 4,
-        nz * frequency * 4,
-        seed + 2000
-      );
-
-      noise = noise / totalAmplitude;
-      
-      // console.log(`Ruido normalizado: ${noise.toFixed(3)}`);
-      
-
-      // Aplica ruído ao raio
-      var displacement = noise * roughness;
+      var displacement = getDisplacementAtpoint(nx, ny, nz, 3.0, roughness, seed);
       
       elevation[vertexIndex] = displacement;
       vertices[i] = originalVertices[i] + nx * displacement;
@@ -68,6 +38,35 @@ function createPlanet (radius, subdivisions, roughness, seed) {
   sphere.a_elevation.data   = elevation;
   
   return sphere;
+}
+
+function getDisplacementAtpoint (nx, ny, nz, frequency, roughness, seed){
+  var noise = simpleNoise(nx * frequency, ny * frequency, nz * frequency, seed);
+
+  amplitude = 1.0;
+  var totalAmplitude  = 1.0;
+
+  amplitude *= 0.5;
+  totalAmplitude += amplitude
+  noise += amplitude * simpleNoise(
+    nx * frequency * 2,
+    ny * frequency * 2,
+    nz * frequency * 2,
+    seed + 1000
+  );
+
+  amplitude *= 0.5;
+  totalAmplitude += amplitude;
+  noise += amplitude * simpleNoise (
+    nx * frequency * 4,
+    ny * frequency * 4,
+    nz * frequency * 4,
+    seed + 2000
+  );
+
+  noise = noise / totalAmplitude;
+  
+  return noise * roughness;
 }
 
 // =============== Sphere Mesh Generation ==================
@@ -183,4 +182,26 @@ function subdivideMesh (vertices, indices) {
     vertices: newVertices,
     indices : newIndices
   };
+}
+
+
+// ================= Object Setters ==================
+function randomPointOnSphere (numTrees ,radius) {
+  function getPoints(radius){
+    const theta = Math.random() * Math.PI * 2;
+    const phi   = Math.acos(2 * Math.random() - 1);
+  
+    return [
+      radius * Math.sin(phi) * Math.cos(theta),
+      radius * Math.sin(phi) * Math.sin(theta),
+      radius * Math.cos(phi)
+    ];
+  }
+  let points = []
+  for (var i = 0; i<numTrees; i++) {
+    var point = getPoints(planetParams.radius);
+    points.push(point);
+  }
+  return points
+
 }

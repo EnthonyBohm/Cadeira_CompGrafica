@@ -17,8 +17,9 @@ async function main () {
     const fs = await loadShader("../shaders/fragment.glsl");
     const meshProgramInfo = twgl.createProgramInfo (gl, [vs,fs]);
 
-    const objHref   = '../../ForestModels/Assets/obj/Tree_1_A_Color1.obj';
+    // const objHref   = './obj/Tree_2_A_Color1.obj';
     // const objHref   = '../../ForestModels/Assets/obj/Rock_3_A_Color1.obj';
+    const objHref   = '../../Farm Animals Animated by Quaternius/OBJ/Cow.obj';
     // const objHref   = '../../WebGl2Fundamentals/webgl/resources/models/chair/chair.obj'
     const response  = await fetch(objHref);
     const text      = await response.text();
@@ -32,6 +33,11 @@ async function main () {
     const materials = parseMTL(matTexts.join('\n'));
 
     const parts = obj.geometries.map(({material, data}) => {
+
+        if (data.texcoord){
+            console.log("Primeiras UVs:", data.texcoord.slice(0,6));
+            
+        }
       const bufferInfo  = twgl.createBufferInfoFromArrays(gl, data);
       const vao         = twgl.createVAOFromBufferInfo(gl, meshProgramInfo,  bufferInfo);
       return {
@@ -41,6 +47,16 @@ async function main () {
       };
     });
 
+    console.log(parts);
+    const tree = parts.at(0);
+    console.log(tree);
+    
+    const treeTexture = twgl.createTexture(gl, {
+        src: 'obj/forest_texture.png',
+        flipY:true,
+    });
+        
+     
     const cameraTarget = [0, 1.2, 0];
     const cameraPosition = [0, 0, 9]
     const zNear = 0.1;
@@ -70,7 +86,8 @@ async function main () {
             u_lightDirection: m4.normalize([-12, 3, 5]),
             u_view: view,
             u_projection: projection,
-            u_viewWorldPosition: cameraPosition
+            u_viewWorldPosition: cameraPosition,
+            u_texture: treeTexture,
         }
 
         gl.useProgram(meshProgramInfo.program);
@@ -81,9 +98,7 @@ async function main () {
         for (const {bufferInfo, vao, material} of parts) {
             gl.bindVertexArray(vao);
 
-            twgl.setUniforms(meshProgramInfo, {
-                u_world,
-            }, material);
+            twgl.setUniforms(meshProgramInfo, {u_world,}, material);
             twgl.drawBufferInfo(gl, bufferInfo);
         }
         requestAnimationFrame(render);

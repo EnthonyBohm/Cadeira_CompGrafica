@@ -1,5 +1,7 @@
 
-function setupSliders (gl, shaders) {
+let isWaitingForClick = false;
+
+function setMenu (gl, shaders, canvas) {
   // Função auxiliar para criar a estrutura completa do slider
   function createSlider({ min, max, step, value, id, label }) {
     const wrapper = document.createElement("div");
@@ -46,6 +48,19 @@ function setupSliders (gl, shaders) {
     b.dataset.action = "update";
     return b;
   }
+  function createAddTreeButton() {
+    const btn = document.createElement("button");
+    btn.textContent = "PLANTAR ARVORE (CLIQUE NO PLANETA)";
+    // btn.style.marginTop = "10px";/
+    btn.style.background = "#28a745"; // Verde para diferenciar
+    
+    btn.onclick = () => {
+      isWaitingForClick = true;
+      btn.textContent = "Aguardando clique...";
+      btn.style.boxShadow = "0 0 10px #28a745";
+    };
+    return btn;
+  }
 
   function createCheckbox({ value, id, label }) {
     const wrapper = document.createElement("div");
@@ -83,6 +98,7 @@ function setupSliders (gl, shaders) {
   
   container.append(createCheckbox({value: planetParams.moveSun, id:"moveSun", label:"Mover o Sol"}));
 
+  container.appendChild(createAddTreeButton());
   container.appendChild(createUpdateButton());
 
 
@@ -103,20 +119,48 @@ function setupSliders (gl, shaders) {
     }
   });
 
+  canvas.addEventListener('click', (e) => {
+  if (!isWaitingForClick) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+    const r = planetParams.radius;
+    const x = mouseX * r;
+    const y = mouseY * r;
+    const distSq = x*x + y*y;
+
+    if (distSq <= r*r) { 
+      const z = Math.sqrt(r * r - distSq);
+      
+      const pontoFinal = [x,y,z];
+      
+      trees.push(pontoFinal);
+      console.log(trees);
+      // Resetar estado
+    }
+    isWaitingForClick = false;
+    document.querySelector('button').textContent = "PLANTAR ARVORE (CLIQUE NO PLANETA)";
+  });
+
   return container;
 }
 
 function addMouseInteraction (canvas, rotation) {
-var isDragging = false;
+
+  var isDragging = false;
   var lastMouseX = 0;
   var lastMouseY = 0;
 
   const sensibility = 0.0025;
 
    canvas.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;   
+    if (!isWaitingForClick){
+      isDragging = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;   
+    }
   });
 
   canvas.addEventListener('mouseup', () => {

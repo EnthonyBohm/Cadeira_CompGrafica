@@ -5,7 +5,7 @@ const planetParams = {
     rotationSpeed: 0.2,
     seed: Math.random() * 10000,
     numTrees: 400,
-    treeSize: 1,
+    treeSize: 0.8,
     moveSun: false,
 };
 
@@ -18,6 +18,17 @@ const programOptions = {
     "a_texcoord" : 4,
   }
 }
+
+
+var globalUniforms = {
+  u_lightWorldPosition: [20, 0, 20],
+  }
+
+var PlanetUniforms = {
+  u_world: m4.identity(),
+  u_worldViewProjection: m4.identity(),
+  u_worldInverseTranspose: m4.identity(),
+};
 
 var trees = [];
 
@@ -39,7 +50,7 @@ async function main() {
               data: (await createObjectData(gl, meshProgramInfo)).at(0)}, // Material, bufferInfo, vao
   };
   
-  setupSliders(gl, shaders);
+  setMenu(gl, shaders, canvas);
 
 // ====================== Setting Important Info =====================
   const depthTexture = gl.createTexture();
@@ -76,16 +87,6 @@ async function main() {
   var translation = [0, 0, -10];
   var rotation = [0, 0, 0];
   var fieldOfViewRadians = degToRad(60);
-
-  var globalUniforms = {
-    u_lightWorldPosition: [20, 0, 20],
-    }
-
-  var PlanetUniforms = {
-    u_world: m4.identity(),
-    u_worldViewProjection: m4.identity(),
-    u_worldInverseTranspose: m4.identity(),
-  };
   
   
   const treeTexture = twgl.createTexture(gl, {
@@ -158,9 +159,6 @@ async function main() {
   
     var worldMatrix = m4.identity();
     m4.translate (worldMatrix, translation[0], translation[1], translation[2],worldMatrix );
-                                                        // globalUniforms.u_lightWorldPosition[0] -= 0.1;
-                                                        // globalUniforms.u_lightWorldPosition[1] += 0.5;
-                                                        // worldMatrix = m4.yRotate(worldMatrix, fRotationRadians);
     m4.xRotate (worldMatrix, rotation[0], worldMatrix);
     m4.yRotate (worldMatrix, rotation[1], worldMatrix);
     m4.zRotate (worldMatrix, rotation[2], worldMatrix);  
@@ -183,12 +181,12 @@ async function main() {
       u_bias: -0.006,
       u_textureMatrix: textureMatrix,
       u_projectedTexture: depthTexture,
-      // u_reverseLightDirection: m4.normalize(lightWorldMatrix.slice(8,11)),
       u_reverseLightDirection: m4.normalize(lightWorldMatrix.slice(8,11)),
     });
-    
+    console.log(trees.length);
+     
     for (let point of trees) {
-      const normals = normalize(point);
+      const normals = m4.normalize(point);
       var displacement = getDisplacementAtpoint(
         normals[0], 
         normals[1],
@@ -245,7 +243,7 @@ async function main() {
       up,
     );
 
-    size = 10;
+    size = 7.3;
     const lightProjectionMatrix = m4.orthographic(
     -size, size,
     -size, size,
